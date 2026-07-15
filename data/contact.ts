@@ -1,11 +1,47 @@
+import { Mail, type LucideIcon } from "lucide-react";
+
+type SvgSocial = {
+  type: "svg";
+  name: string;
+  href: string;
+  icon: string;
+  darkIcon?: string;
+};
+
+type LucideSocial = {
+  type: "lucide";
+  name: string;
+  href: string;
+  icon: LucideIcon;
+};
+
+export type Social = SvgSocial | LucideSocial;
+
 export const contact = {
   title: "Let's build something great together.",
   description:
-    "Whether you have an exciting opportunity, a frontend engineering challenge, or simply want to connect, I'd love to hear from you.",
+    "I'm always interested in discussing frontend engineering, product development, and exciting opportunities. Whether you're hiring, collaborating, or simply want to connect, my inbox is always open.",
   email: "subhasish.mishra17@gmail.com",
   location: "Bengaluru, India",
-  socials: {
-    github: "https://github.com/smishra11",
-    linkedin: "https://linkedin.com/in/subhasish-mishra17",
-  },
+  socials: [
+    {
+      type: "svg",
+      name: "GitHub",
+      href: "https://github.com/smishra11",
+      icon: "/icons/github-light.svg",
+      darkIcon: "/icons/github-dark.svg",
+    },
+    {
+      type: "svg",
+      name: "LinkedIn",
+      href: "https://linkedin.com/in/subhasish-mishra17",
+      icon: "/icons/linkedin.svg",
+    },
+    {
+      type: "lucide",
+      name: "Email",
+      href: "mailto:subhasish.mishra17@gmail.com",
+      icon: Mail,
+    },
+  ] satisfies Social[],
 } as const;

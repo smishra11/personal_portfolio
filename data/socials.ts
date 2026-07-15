@@ -2,12 +2,13 @@ export const socials = [
   {
     id: "github",
     label: "GitHub",
-    href: "https://github.com/yourusername",
+    href: "https://github.com/smishra11",
   },
+
   {
     id: "linkedin",
     label: "LinkedIn",
-    href: "https://linkedin.com/in/yourusername",
+    href: "https://www.linkedin.com/in/subhasish-mishra17/",
   },
   {
     id: "email",
