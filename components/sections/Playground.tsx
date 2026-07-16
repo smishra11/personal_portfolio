@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { SectionHeading } from "@/components/common";
@@ -21,44 +22,47 @@ export function Playground() {
         <SectionHeading
           id="playground-title"
           title="Playground"
-          subtitle="Experiments, prototypes, and frontend explorations outside of production work."
+          subtitle="Interactive experiments exploring JavaScript internals, React architecture, and frontend performance techniques."
         />
 
         <div className="mt-16 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {playground.map((item) => (
-            <article
+            <Link
               key={item.slug}
-              className="bg-card border-border hover:border-primary/30 group rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              href={`/playground/${item.slug}`}
+              className="group block"
             >
-              <div className="flex items-start justify-between gap-4">
-                <span
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_STYLES[item.status]}`}
-                >
-                  {item.status}
-                </span>
-
-                <ArrowUpRight className="text-muted-foreground group-hover:text-primary h-5 w-5 transition-colors" />
-              </div>
-
-              <h3 className="mt-6 text-2xl font-bold tracking-tight">
-                {item.title}
-              </h3>
-
-              <p className="text-muted-foreground mt-4 leading-7">
-                {item.description}
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-2">
-                {item.tags.map((tag) => (
+              <article className="bg-card border-border hover:border-primary/30 h-full rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div className="flex items-start justify-between gap-4">
                   <span
-                    key={tag}
-                    className="bg-muted text-muted-foreground rounded-full px-3 py-1 text-sm"
+                    className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_STYLES[item.status]}`}
                   >
-                    {tag}
+                    {item.status}
                   </span>
-                ))}
-              </div>
-            </article>
+
+                  <ArrowUpRight className="text-muted-foreground group-hover:text-primary h-5 w-5 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </div>
+
+                <h3 className="mt-6 text-2xl font-bold tracking-tight">
+                  {item.title}
+                </h3>
+
+                <p className="text-muted-foreground mt-4 leading-7">
+                  {item.description}
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-2">
+                  {item.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="bg-muted text-muted-foreground rounded-full px-3 py-1 text-sm"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            </Link>
           ))}
         </div>
       </Container>

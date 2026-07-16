@@ -3,8 +3,10 @@ import Link from "next/link";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "@/data/navLinks";
+import { ThemeToggle } from "@/components/common";
+import { MobileMenu } from "@/components/layout";
 
-const RESUME_FILE = "/resume.pdf";
+const RESUME_PATH = "/resume.pdf";
 
 export function Navbar() {
   return (
@@ -37,9 +39,15 @@ export function Navbar() {
           </ul>
 
           {/* Resume */}
-          <Link href={RESUME_FILE} target="_blank" rel="noopener noreferrer">
-            <Button>Resume</Button>
-          </Link>
+          <div className="hidden items-center gap-2 md:flex">
+            <ThemeToggle />
+
+            <Link href={RESUME_PATH} target="_blank" rel="noopener noreferrer">
+              <Button>Resume</Button>
+            </Link>
+          </div>
+
+          <MobileMenu navLinks={navLinks} resumePath={RESUME_PATH} />
         </nav>
       </Container>
     </header>

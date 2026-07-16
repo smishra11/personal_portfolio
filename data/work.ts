@@ -25,7 +25,7 @@ export const work: Work[] = [
     role: "Frontend Engineer",
     title: "Identity Verification Platform",
     category: "Enterprise SaaS",
-    duration: "",
+    duration: "07/2025 - 01/2026",
     overview:
       "Contributed to an enterprise identity verification platform by building scalable frontend experiences that simplified complex verification workflows. My work focused on creating reusable UI architecture, improving workflow configurability, and delivering a smooth user experience for business users.",
     contributions: [
@@ -43,7 +43,7 @@ export const work: Work[] = [
         "State Management",
         "Accessibility",
       ],
-      tools: ["GraphQL", "Redux", "Git"],
+      tools: ["GraphQL", "Zustand", "Git", "Gen AI"],
     },
   },
 
@@ -55,7 +55,7 @@ export const work: Work[] = [
     role: "Frontend Engineer",
     title: "Web3 Investment Platform",
     category: "FinTech",
-    duration: "",
+    duration: "03/2024 - 12/2024",
     overview:
       "Worked on a Web3 investment platform focused on creating a seamless blockchain experience. Built intuitive interfaces for wallet connectivity, staking, and rewards while ensuring the application remained responsive and user-friendly.",
     contributions: [
@@ -66,9 +66,9 @@ export const work: Work[] = [
       "Worked closely with cross-functional teams to deliver secure and reliable frontend features.",
     ],
     technologies: {
-      frontend: ["React", "Next.js", "TypeScript"],
+      frontend: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
       architecture: ["Web3 Integration", "Responsive Design"],
-      tools: ["Web3.js", "MetaMask", "Git"],
+      tools: ["Ethereum", "MetaMask", "Git"],
     },
   },
   {
@@ -79,7 +79,7 @@ export const work: Work[] = [
     role: "Frontend Engineer",
     title: "Identity Intelligence Platform",
     category: "SaaS",
-    duration: "",
+    duration: "03/2021 - 09/2023",
     overview:
       "Contributed to an identity intelligence platform by building scalable dashboards and data-driven interfaces that enabled users to analyze verification data efficiently while maintaining performance and usability.",
     contributions: [
@@ -90,7 +90,7 @@ export const work: Work[] = [
       "Collaborated with backend teams to integrate APIs and deliver production-ready features.",
     ],
     technologies: {
-      frontend: ["React", "Next.js", "TypeScript"],
+      frontend: ["React", "TypeScript", "Material UI"],
       architecture: [
         "Dashboard Development",
         "Performance Optimization",

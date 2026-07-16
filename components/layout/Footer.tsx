@@ -39,7 +39,8 @@ export function Footer() {
           <div className="bg-border my-10 h-px w-full max-w-2xl" />
 
           <p className="text-muted-foreground text-sm">
-            © {new Date().getFullYear()} {profile.name}. All rights reserved.
+            {/* © {new Date().getFullYear()} {profile.name}. All rights reserved. */}
+            © 2026. All rights reserved.
           </p>
 
           <p className="text-muted-foreground mt-2 text-sm">

@@ -8,27 +8,27 @@ export type PlaygroundItem = {
 
 export const playground: PlaygroundItem[] = [
   {
-    slug: "react-performance-lab",
-    title: "React Performance Lab",
+    slug: "javascript",
+    title: "JavaScript Playground",
     description:
-      "A collection of experiments exploring memoization, rendering behavior, virtualization, and performance optimization techniques in modern React applications.",
-    status: "Coming Soon",
-    tags: ["React", "Performance", "Memoization"],
+      "Interactive experiments exploring JavaScript internals, runtime behavior, and interview-focused concepts through practical examples.",
+    status: "Live",
+    tags: ["Closures", "this", "Event Loop"],
   },
   {
-    slug: "interactive-data-visualization",
-    title: "Interactive Data Visualization",
+    slug: "react",
+    title: "React Playground",
     description:
-      "Interactive dashboards and charts built with modern frontend technologies, focusing on usability, accessibility, and performance.",
-    status: "Coming Soon",
-    tags: ["Charts", "Dashboard", "UX"],
+      "A collection of React experiments covering hooks, rendering, React 19 features, and modern architecture patterns.",
+    status: "In Progress",
+    tags: ["React 19", "Hooks", "Rendering"],
   },
   {
-    slug: "component-lab",
-    title: "Component Lab",
+    slug: "performance",
+    title: "Performance Playground",
     description:
-      "A growing library of reusable UI components, animations, and interaction patterns built from scratch.",
+      "Hands-on explorations of frontend performance, rendering optimization, memoization, virtualization, and bundle analysis.",
     status: "Coming Soon",
-    tags: ["Design System", "Animation", "UI"],
+    tags: ["Memoization", "Virtualization", "Lazy Loading"],
   },
 ];
