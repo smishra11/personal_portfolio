@@ -1,5 +1,4 @@
 import type { PlaygroundTopic } from "@/types/playground";
-import { placeholderSections } from "./playgroundPlaceholders";
 
 export const javascriptTopics: PlaygroundTopic[] = [
   {
