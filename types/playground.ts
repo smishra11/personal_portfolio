@@ -4,6 +4,11 @@ export type TopicSection =
       content: string[];
     }
   | {
+      type: "concept";
+      title: string;
+      content: string[];
+    }
+  | {
       type: "code";
       title: string;
       language: "javascript" | "typescript" | "tsx";
@@ -24,6 +29,10 @@ export type TopicSection =
         answer: string;
         difficulty: "Easy" | "Medium" | "Hard";
       }[];
+    }
+  | {
+      type: "summary";
+      points: string[];
     };
 
 export type PlaygroundTopic = {
