@@ -1,4 +1,5 @@
 import type { PlaygroundTopic } from "@/types/playground";
+import { placeholderSections } from "./playgroundPlaceholders";
 
 export const performanceTopics: PlaygroundTopic[] = [
   {
@@ -9,6 +10,7 @@ export const performanceTopics: PlaygroundTopic[] = [
     level: "Intermediate",
     estimatedReadTime: "15 min",
     tags: ["Memoization", "Caching", "Optimization"],
+    sections: placeholderSections,
   },
   {
     slug: "virtualization",
@@ -18,6 +20,7 @@ export const performanceTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "18 min",
     tags: ["Virtualization", "Lists", "Performance"],
+    sections: placeholderSections,
   },
   {
     slug: "lazy-loading",
@@ -27,6 +30,7 @@ export const performanceTopics: PlaygroundTopic[] = [
     level: "Intermediate",
     estimatedReadTime: "12 min",
     tags: ["Lazy Loading", "Dynamic Import", "Code Splitting"],
+    sections: placeholderSections,
   },
   {
     slug: "bundle-optimization",
@@ -36,6 +40,7 @@ export const performanceTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "18 min",
     tags: ["Bundle", "Tree Shaking", "Webpack", "Vite"],
+    sections: placeholderSections,
   },
   {
     slug: "image-optimization",
@@ -45,6 +50,7 @@ export const performanceTopics: PlaygroundTopic[] = [
     level: "Beginner",
     estimatedReadTime: "10 min",
     tags: ["Images", "Next/Image", "LCP"],
+    sections: placeholderSections,
   },
   {
     slug: "web-vitals",
@@ -54,5 +60,6 @@ export const performanceTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "20 min",
     tags: ["LCP", "CLS", "INP", "Performance"],
+    sections: placeholderSections,
   },
 ];

@@ -1,4 +1,5 @@
 import type { PlaygroundTopic } from "@/types/playground";
+import { placeholderSections } from "./playgroundPlaceholders";
 
 export const javascriptTopics: PlaygroundTopic[] = [
   {
@@ -9,6 +10,7 @@ export const javascriptTopics: PlaygroundTopic[] = [
     level: "Intermediate",
     estimatedReadTime: "12 min",
     tags: ["Scope", "Lexical Environment", "Functions", "Interview"],
+    sections: placeholderSections,
   },
   {
     slug: "this-keyword",
@@ -18,6 +20,7 @@ export const javascriptTopics: PlaygroundTopic[] = [
     level: "Intermediate",
     estimatedReadTime: "15 min",
     tags: ["this", "Execution Context", "call", "bind"],
+    sections: placeholderSections,
   },
   {
     slug: "event-loop",
@@ -27,6 +30,7 @@ export const javascriptTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "20 min",
     tags: ["Runtime", "Call Stack", "Microtasks", "Async"],
+    sections: placeholderSections,
   },
   {
     slug: "promises",
@@ -36,6 +40,7 @@ export const javascriptTopics: PlaygroundTopic[] = [
     level: "Intermediate",
     estimatedReadTime: "15 min",
     tags: ["Promise", "Async", "then", "catch"],
+    sections: placeholderSections,
   },
   {
     slug: "async-await",
@@ -45,6 +50,7 @@ export const javascriptTopics: PlaygroundTopic[] = [
     level: "Intermediate",
     estimatedReadTime: "15 min",
     tags: ["Async", "Await", "Promise", "Error Handling"],
+    sections: placeholderSections,
   },
   {
     slug: "call-apply-bind",
@@ -54,6 +60,7 @@ export const javascriptTopics: PlaygroundTopic[] = [
     level: "Intermediate",
     estimatedReadTime: "18 min",
     tags: ["call", "apply", "bind", "this"],
+    sections: placeholderSections,
   },
   {
     slug: "prototype",
@@ -63,6 +70,7 @@ export const javascriptTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "18 min",
     tags: ["Prototype", "Inheritance", "__proto__", "Objects"],
+    sections: placeholderSections,
   },
   {
     slug: "currying",
@@ -72,6 +80,7 @@ export const javascriptTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "15 min",
     tags: ["Currying", "Functional Programming", "Closures"],
+    sections: placeholderSections,
   },
   {
     slug: "memoization",
@@ -81,5 +90,6 @@ export const javascriptTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "15 min",
     tags: ["Caching", "Performance", "Closures", "Optimization"],
+    sections: placeholderSections,
   },
 ];

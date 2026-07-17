@@ -1,3 +1,31 @@
+export type TopicSection =
+  | {
+      type: "overview";
+      content: string[];
+    }
+  | {
+      type: "code";
+      title: string;
+      language: "javascript" | "typescript" | "tsx";
+      filename?: string;
+      code: string;
+    }
+  | {
+      type: "note";
+      variant:
+        "tip" | "warning" | "best-practice" | "interview" | "performance";
+      title: string;
+      content: string;
+    }
+  | {
+      type: "interview";
+      questions: {
+        question: string;
+        answer: string;
+        difficulty: "Easy" | "Medium" | "Hard";
+      }[];
+    };
+
 export type PlaygroundTopic = {
   slug: string;
   title: string;
@@ -5,4 +33,5 @@ export type PlaygroundTopic = {
   level: "Beginner" | "Intermediate" | "Advanced";
   estimatedReadTime: string;
   tags: string[];
+  sections: TopicSection[];
 };

@@ -1,4 +1,5 @@
 import type { PlaygroundTopic } from "@/types/playground";
+import { placeholderSections } from "./playgroundPlaceholders";
 
 export const reactTopics: PlaygroundTopic[] = [
   {
@@ -9,6 +10,7 @@ export const reactTopics: PlaygroundTopic[] = [
     level: "Intermediate",
     estimatedReadTime: "20 min",
     tags: ["React 19", "Actions", "use", "Rendering"],
+    sections: placeholderSections,
   },
   {
     slug: "hooks",
@@ -18,6 +20,7 @@ export const reactTopics: PlaygroundTopic[] = [
     level: "Intermediate",
     estimatedReadTime: "20 min",
     tags: ["Hooks", "useEffect", "useMemo", "useCallback"],
+    sections: placeholderSections,
   },
   {
     slug: "rendering",
@@ -27,6 +30,7 @@ export const reactTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "18 min",
     tags: ["Rendering", "Reconciliation", "Fiber"],
+    sections: placeholderSections,
   },
   {
     slug: "server-components",
@@ -36,6 +40,7 @@ export const reactTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "20 min",
     tags: ["RSC", "Next.js", "Server", "Streaming"],
+    sections: placeholderSections,
   },
   {
     slug: "suspense",
@@ -45,6 +50,7 @@ export const reactTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "18 min",
     tags: ["Suspense", "Streaming", "Async"],
+    sections: placeholderSections,
   },
   {
     slug: "react-compiler",
@@ -54,6 +60,7 @@ export const reactTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "18 min",
     tags: ["Compiler", "Optimization", "Memoization"],
+    sections: placeholderSections,
   },
   {
     slug: "context-api",
@@ -63,6 +70,7 @@ export const reactTopics: PlaygroundTopic[] = [
     level: "Intermediate",
     estimatedReadTime: "15 min",
     tags: ["Context", "State Management", "Provider"],
+    sections: placeholderSections,
   },
   {
     slug: "server-actions",
@@ -72,5 +80,6 @@ export const reactTopics: PlaygroundTopic[] = [
     level: "Advanced",
     estimatedReadTime: "18 min",
     tags: ["Server Actions", "Next.js", "Forms"],
+    sections: placeholderSections,
   },
 ];
