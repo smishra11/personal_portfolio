@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import {
   AlertTriangle,
   BadgeCheck,
@@ -6,52 +7,75 @@ import {
   Target,
 } from "lucide-react";
 
-import type { TopicSection } from "@/types/playground";
+import { cn } from "@/lib/utils";
+import type { NoteVariant, TopicSection } from "@/types/playground";
 
 type Props = {
   section: Extract<TopicSection, { type: "note" }>;
 };
 
-const VARIANT_CONFIG = {
+const VARIANT_CONFIG: Record<
+  NoteVariant,
+  {
+    icon: LucideIcon;
+    border: string;
+    background: string;
+    color: string;
+  }
+> = {
   tip: {
     icon: Lightbulb,
-    className: "border-blue-500/30 bg-blue-500/5 text-blue-500",
+    border: "border-blue-500/30",
+    background: "bg-blue-500/5",
+    color: "text-blue-500",
   },
 
   warning: {
     icon: AlertTriangle,
-    className: "border-amber-500/30 bg-amber-500/5 text-amber-500",
+    border: "border-amber-500/30",
+    background: "bg-amber-500/5",
+    color: "text-amber-500",
   },
 
   "best-practice": {
     icon: BadgeCheck,
-    className: "border-green-500/30 bg-green-500/5 text-green-500",
+    border: "border-green-500/30",
+    background: "bg-green-500/5",
+    color: "text-green-500",
   },
 
   interview: {
     icon: Target,
-    className: "border-violet-500/30 bg-violet-500/5 text-violet-500",
+    border: "border-violet-500/30",
+    background: "bg-violet-500/5",
+    color: "text-violet-500",
   },
 
   performance: {
     icon: Rocket,
-    className: "border-cyan-500/30 bg-cyan-500/5 text-cyan-500",
+    border: "border-cyan-500/30",
+    background: "bg-cyan-500/5",
+    color: "text-cyan-500",
   },
-} as const;
+};
 
 export function PlaygroundNote({ section }: Props) {
   const config = VARIANT_CONFIG[section.variant];
   const Icon = config.icon;
 
   return (
-    <section className={`rounded-2xl border p-6 ${config.className}`}>
+    <section
+      className={cn("rounded-2xl border p-6", config.border, config.background)}
+    >
       <div className="flex items-center gap-3">
-        <Icon className="size-5" />
+        <Icon className={cn("size-5", config.color)} />
 
-        <h2 className="font-semibold">{section.title}</h2>
+        <h2 className={cn("text-lg font-semibold", config.color)}>
+          {section.title}
+        </h2>
       </div>
 
-      <p className="text-foreground mt-4 leading-8">{section.content}</p>
+      <p className="text-muted-foreground mt-4 leading-8">{section.content}</p>
     </section>
   );
 }

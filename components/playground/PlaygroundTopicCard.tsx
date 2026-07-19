@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, Clock3 } from "lucide-react";
 
 import type { PlaygroundTopic } from "@/types/playground";
+import { Badge } from "../ui/badge";
 
 type PlaygroundTopicCardProps = {
   topic: PlaygroundTopic;
@@ -20,19 +21,21 @@ export function PlaygroundTopicCard({ topic, href }: PlaygroundTopicCardProps) {
       href={href}
       className="group border-border bg-card hover:border-primary/30 block rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex items-center justify-between gap-4">
         <span
           className={`rounded-full px-3 py-1 text-xs font-semibold ${LEVEL_STYLES[topic.level]}`}
         >
           {topic.level}
         </span>
 
-        <ArrowUpRight className="text-muted-foreground group-hover:text-primary size-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+        <div className="bg-muted group-hover:bg-primary/10 rounded-full p-1.5 transition-colors">
+          <ArrowUpRight />
+        </div>
       </div>
 
-      <h3 className="mt-6 text-2xl font-bold tracking-tight">{topic.title}</h3>
+      <h3 className="mt-4 text-2xl font-bold tracking-tight">{topic.title}</h3>
 
-      <p className="text-muted-foreground mt-4 leading-7">
+      <p className="text-muted-foreground mt-4 line-clamp-2 leading-7">
         {topic.description}
       </p>
 
@@ -43,12 +46,9 @@ export function PlaygroundTopicCard({ topic, href }: PlaygroundTopicCardProps) {
 
       <div className="mt-6 flex flex-wrap gap-2">
         {topic.tags.map((tag) => (
-          <span
-            key={tag}
-            className="bg-muted text-muted-foreground rounded-full px-3 py-1 text-xs"
-          >
+          <Badge key={tag} variant="outline" className="text-xs">
             {tag}
-          </span>
+          </Badge>
         ))}
       </div>
     </Link>

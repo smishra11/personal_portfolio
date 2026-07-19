@@ -2,6 +2,7 @@ import type { PlaygroundTopic } from "@/types/playground";
 
 export const javascriptTopics: PlaygroundTopic[] = [
   {
+    category: "javascript",
     slug: "closures",
     title: "Closures",
     description:
@@ -71,6 +72,7 @@ counter(); // 3`,
     ],
   },
   {
+    category: "javascript",
     slug: "this-keyword",
     title: "this Keyword",
     description:
@@ -140,6 +142,7 @@ greet(); // undefined (strict mode)
     ],
   },
   {
+    category: "javascript",
     slug: "event-loop",
     title: "Event Loop",
     description:
@@ -212,6 +215,7 @@ console.log("End");
     ],
   },
   {
+    category: "javascript",
     slug: "promises",
     title: "Promises",
     description:
@@ -279,6 +283,7 @@ fetchData
     ],
   },
   {
+    category: "javascript",
     slug: "async-await",
     title: "Async / Await",
     description:
@@ -349,6 +354,7 @@ fetchUsers();`,
     ],
   },
   {
+    category: "javascript",
     slug: "call-apply-bind",
     title: "call / apply / bind",
     description:
@@ -423,6 +429,7 @@ greetPerson("Bengaluru", "India");
     ],
   },
   {
+    category: "javascript",
     slug: "prototype",
     title: "Prototype",
     description:
@@ -488,6 +495,7 @@ john.greet();`,
     ],
   },
   {
+    category: "javascript",
     slug: "currying",
     title: "Currying",
     description:
@@ -552,6 +560,7 @@ console.log(double(8)); // 16`,
     ],
   },
   {
+    category: "javascript",
     slug: "memoization",
     title: "Memoization",
     description:

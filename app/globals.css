@@ -125,3 +125,63 @@
     @apply bg-background text-foreground font-sans;
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/* Shiki Code Block */
+/* -------------------------------------------------------------------------- */
+
+pre.shiki {
+  margin: 0;
+  padding: 1.25rem;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  background: transparent !important;
+
+  font-size: 0.875rem;
+  line-height: 1.75;
+
+  border-radius: 0;
+}
+
+pre.shiki code {
+  display: grid;
+  font-family: var(--font-geist-mono);
+  font-size: inherit;
+}
+
+pre.shiki code > span {
+  display: block;
+}
+
+pre.shiki::-webkit-scrollbar {
+  height: 8px;
+}
+
+pre.shiki::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+
+pre.shiki::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html:not(.dark) .shiki,
+html:not(.dark) .shiki span {
+  color: var(--shiki-light, inherit) !important;
+}
+
+html:not(.dark) .shiki {
+  background-color: var(--shiki-light-bg, transparent) !important;
+}
+
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark, inherit) !important;
+}
+
+html.dark .shiki {
+  background-color: var(--shiki-dark-bg, transparent) !important;
+}

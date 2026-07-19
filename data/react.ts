@@ -2,6 +2,7 @@ import type { PlaygroundTopic } from "@/types/playground";
 
 export const reactTopics: PlaygroundTopic[] = [
   {
+    category: "react",
     slug: "react-19",
     title: "React 19 Features",
     description:
@@ -63,6 +64,7 @@ function User({ promise }) {
     ],
   },
   {
+    category: "react",
     slug: "react-hooks",
     title: "React Hooks",
     description:
@@ -128,6 +130,7 @@ export default function Counter() {
     ],
   },
   {
+    category: "react",
     slug: "react-rendering",
     title: "React Rendering",
     description:
@@ -195,6 +198,7 @@ export default function Counter() {
     ],
   },
   {
+    category: "react",
     slug: "server-components",
     title: "Server Components",
     description:
@@ -268,6 +272,7 @@ export default async function UsersPage() {
     ],
   },
   {
+    category: "react",
     slug: "suspense",
     title: "Suspense",
     description:
@@ -333,6 +338,7 @@ export default function App() {
     ],
   },
   {
+    category: "react",
     slug: "react-compiler",
     title: "React Compiler",
     description:
@@ -404,6 +410,7 @@ export default function App() {
     ],
   },
   {
+    category: "react",
     slug: "context-api",
     title: "Context API",
     description:
@@ -475,6 +482,7 @@ export default function App() {
     ],
   },
   {
+    category: "react",
     slug: "server-actions",
     title: "Server Actions",
     description:

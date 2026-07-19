@@ -1,16 +1,16 @@
 import { notFound } from "next/navigation";
 
-import { PlaygroundTopicPage } from "@/components/playground";
+import { PlaygroundTopicPage } from "@/components/playground/PlaygroundTopicPage";
 import { performanceTopics } from "@/data/performance";
-import { getTopicBySlug } from "@/lib/playground";
+import { getAdjacentTopics, getTopicBySlug } from "@/lib/playground";
 
-type Props = {
+type PageProps = {
   params: Promise<{
     topic: string;
   }>;
 };
 
-export default async function PerformanceTopicPage({ params }: Props) {
+export default async function PerformanceTopicPage({ params }: PageProps) {
   const { topic } = await params;
 
   const currentTopic = getTopicBySlug(performanceTopics, topic);
@@ -19,17 +19,9 @@ export default async function PerformanceTopicPage({ params }: Props) {
     notFound();
   }
 
-  return (
-    <PlaygroundTopicPage
-      topic={currentTopic}
-      category="Performance"
-      backHref="/playground/performance"
-    />
-  );
-}
+  const { previous, next } = getAdjacentTopics(performanceTopics, topic);
 
-export async function generateStaticParams() {
-  return performanceTopics.map((topic) => ({
-    topic: topic.slug,
-  }));
+  return (
+    <PlaygroundTopicPage topic={currentTopic} previous={previous} next={next} />
+  );
 }

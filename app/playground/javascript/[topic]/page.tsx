@@ -1,16 +1,16 @@
 import { notFound } from "next/navigation";
 
-import { PlaygroundTopicPage } from "@/components/playground";
+import { PlaygroundTopicPage } from "@/components/playground/PlaygroundTopicPage";
 import { javascriptTopics } from "@/data/javascript";
-import { getTopicBySlug } from "@/lib/playground";
+import { getAdjacentTopics, getTopicBySlug } from "@/lib/playground";
 
-type Props = {
+type PageProps = {
   params: Promise<{
     topic: string;
   }>;
 };
 
-export default async function JavaScriptTopicPage({ params }: Props) {
+export default async function JavaScriptTopicPage({ params }: PageProps) {
   const { topic } = await params;
 
   const currentTopic = getTopicBySlug(javascriptTopics, topic);
@@ -19,17 +19,9 @@ export default async function JavaScriptTopicPage({ params }: Props) {
     notFound();
   }
 
-  return (
-    <PlaygroundTopicPage
-      topic={currentTopic}
-      category="JavaScript"
-      backHref="/playground/javascript"
-    />
-  );
-}
+  const { previous, next } = getAdjacentTopics(javascriptTopics, topic);
 
-export async function generateStaticParams() {
-  return javascriptTopics.map((topic) => ({
-    topic: topic.slug,
-  }));
+  return (
+    <PlaygroundTopicPage topic={currentTopic} previous={previous} next={next} />
+  );
 }

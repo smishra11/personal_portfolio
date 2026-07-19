@@ -2,6 +2,7 @@ import type { PlaygroundTopic } from "@/types/playground";
 
 export const performanceTopics: PlaygroundTopic[] = [
   {
+    category: "performance",
     slug: "memoization",
     title: "Memoization",
     description:
@@ -76,6 +77,7 @@ export default function App() {
     ],
   },
   {
+    category: "performance",
     slug: "virtualization",
     title: "Virtualization",
     description:
@@ -148,6 +150,7 @@ export default function App() {
     ],
   },
   {
+    category: "performance",
     slug: "lazy-loading",
     title: "Lazy Loading",
     description:
@@ -213,6 +216,7 @@ export default function App() {
     ],
   },
   {
+    category: "performance",
     slug: "bundle-optimization",
     title: "Bundle Optimization",
     description:
@@ -276,6 +280,7 @@ export default function Dashboard() {
     ],
   },
   {
+    category: "performance",
     slug: "image-optimization",
     title: "Image Optimization",
     description:
@@ -343,6 +348,7 @@ export default function Profile() {
     ],
   },
   {
+    category: "performance",
     slug: "core-web-vitals",
     title: "Core Web Vitals",
     description:

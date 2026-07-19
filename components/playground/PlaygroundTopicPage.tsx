@@ -1,56 +1,89 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
 import { Container, Section } from "@/components/layout";
-import type { PlaygroundTopic } from "@/types/playground";
+import { Badge } from "@/components/ui/badge";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
-import { PlaygroundTopicHero } from "./PlaygroundTopicHero";
-import { PlaygroundCode } from "./PlaygroundCode";
-import { PlaygroundInterview } from "./PlaygroundInterview";
-import { PlaygroundNote } from "./PlaygroundNote";
-import { PlaygroundOverview } from "./PlaygroundOverview";
+import { PlaygroundPagination } from "./PlaygroundPagination";
+import { PlaygroundRenderer } from "./PlaygroundRenderer";
+
+import type { PlaygroundTopic } from "@/types/playground";
 
 type PlaygroundTopicPageProps = {
   topic: PlaygroundTopic;
-  category: string;
-  backHref: string;
+  previous: PlaygroundTopic | null;
+  next: PlaygroundTopic | null;
 };
 
-export function PlaygroundTopicPage({
+export async function PlaygroundTopicPage({
   topic,
-  category,
-  backHref,
+  previous,
+  next,
 }: PlaygroundTopicPageProps) {
   return (
-    <Section className="py-24">
-      <Container className="max-w-5xl">
-        <Link
-          href={backHref}
-          className="text-muted-foreground hover:text-primary mb-10 inline-flex items-center gap-2 transition-colors"
-        >
-          <ArrowLeft className="size-4" />
-          Back to {category}
-        </Link>
+    <Section className="pt-20">
+      <Container className="max-w-4xl">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/#playground">Playground</BreadcrumbLink>
+            </BreadcrumbItem>
 
-        <PlaygroundTopicHero topic={topic} />
+            <BreadcrumbSeparator />
 
-        <div className="mt-20 space-y-20">
-          {topic.sections.map((section, index) => {
-            switch (section.type) {
-              case "overview":
-                return <PlaygroundOverview key={index} section={section} />;
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/playground/${topic.category}`}>
+                {topic.category.charAt(0).toUpperCase() +
+                  topic.category.slice(1)}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
 
-              case "code":
-                return <PlaygroundCode key={index} section={section} />;
+            <BreadcrumbSeparator />
 
-              case "note":
-                return <PlaygroundNote key={index} section={section} />;
+            <BreadcrumbItem>
+              <BreadcrumbPage>{topic.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
 
-              case "interview":
-                return <PlaygroundInterview key={index} section={section} />;
-            }
-          })}
-        </div>
+        <article className="mt-8">
+          <header className="mb-14">
+            <div className="mb-4 flex flex-wrap items-center gap-3">
+              <Badge variant="secondary">{topic.level}</Badge>
+
+              <span className="text-muted-foreground text-sm">
+                {topic.estimatedReadTime}
+              </span>
+            </div>
+
+            <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
+              {topic.title}
+            </h1>
+
+            <p className="text-muted-foreground mt-6 max-w-3xl text-lg leading-8">
+              {topic.description}
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-2">
+              {topic.tags.map((tag) => (
+                <Badge key={tag} variant="outline">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          </header>
+
+          <PlaygroundRenderer sections={topic.sections} />
+
+          <PlaygroundPagination previous={previous} next={next} />
+        </article>
       </Container>
     </Section>
   );

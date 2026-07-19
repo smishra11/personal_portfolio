@@ -1,11 +1,12 @@
-"use client";
-
-import { ChevronDown } from "lucide-react";
-import { useState } from "react";
-
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 
 type PlaygroundInterviewCardProps = {
+  value: string;
   question: string;
   answer: string;
   difficulty: "Easy" | "Medium" | "Hard";
@@ -18,40 +19,31 @@ const DIFFICULTY_STYLES = {
 } as const;
 
 export function PlaygroundInterviewCard({
+  value,
   question,
   answer,
   difficulty,
 }: PlaygroundInterviewCardProps) {
-  const [open, setOpen] = useState(false);
-
   return (
-    <article className="bg-card rounded-2xl border">
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between p-5 text-left"
-      >
-        <h3 className="font-semibold">{question}</h3>
-
-        <ChevronDown
-          className={cn("size-5 transition-transform", open && "rotate-180")}
-        />
-      </button>
-
-      {open && (
-        <div className="border-t px-5 py-5">
-          <p className="text-muted-foreground leading-8">{answer}</p>
+    <AccordionItem value={value} className="bg-card rounded-2xl border px-5">
+      <AccordionTrigger className="py-5 hover:no-underline">
+        <div className="flex w-full items-center justify-between gap-4 pr-4">
+          <span className="text-left font-semibold">{question}</span>
 
           <span
             className={cn(
-              "mt-5 inline-flex rounded-full px-3 py-1 text-xs font-semibold",
+              "rounded-full px-3 py-1 text-xs font-semibold",
               DIFFICULTY_STYLES[difficulty]
             )}
           >
             {difficulty}
           </span>
         </div>
-      )}
-    </article>
+      </AccordionTrigger>
+
+      <AccordionContent className="border-t pt-5 pb-5">
+        <p className="text-muted-foreground leading-8">{answer}</p>
+      </AccordionContent>
+    </AccordionItem>
   );
 }

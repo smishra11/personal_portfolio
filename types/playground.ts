@@ -1,25 +1,25 @@
+export type CodeLanguage = "javascript" | "typescript" | "tsx";
+
+export type InterviewDifficulty = "Easy" | "Medium" | "Hard";
+export type NoteVariant =
+  "tip" | "warning" | "best-practice" | "interview" | "performance";
+
 export type TopicSection =
   | {
       type: "overview";
       content: string[];
     }
   | {
-      type: "concept";
-      title: string;
-      content: string[];
-    }
-  | {
       type: "code";
       title: string;
-      language: "javascript" | "typescript" | "tsx";
+      language: CodeLanguage;
       filename?: string;
       code: string;
     }
   | {
       type: "note";
-      variant:
-        "tip" | "warning" | "best-practice" | "interview" | "performance";
       title: string;
+      variant: NoteVariant;
       content: string;
     }
   | {
@@ -27,15 +27,14 @@ export type TopicSection =
       questions: {
         question: string;
         answer: string;
-        difficulty: "Easy" | "Medium" | "Hard";
+        difficulty: InterviewDifficulty;
       }[];
-    }
-  | {
-      type: "summary";
-      points: string[];
     };
 
+export type PlaygroundCategory = "javascript" | "react" | "performance";
+
 export type PlaygroundTopic = {
+  category: PlaygroundCategory;
   slug: string;
   title: string;
   description: string;
