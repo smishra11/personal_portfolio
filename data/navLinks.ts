@@ -4,17 +4,18 @@ export const navLinks = [
     href: "#about",
   },
   {
-    label: "Experience",
-    href: "#experience",
-  },
-  {
-    label: "Projects",
-    href: "#projects",
+    label: "Works",
+    href: "#work",
   },
   {
     label: "Playground",
     href: "#playground",
   },
+  {
+    label: "Experience",
+    href: "#experience",
+  },
+
   {
     label: "Contact",
     href: "#contact",

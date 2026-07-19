@@ -2,6 +2,7 @@ export type Work = {
   slug: string;
   featured: boolean;
   company: string;
+  logo: string;
   employer: string;
   role: string;
   title: string;
@@ -21,6 +22,7 @@ export const work: Work[] = [
     slug: "jumio",
     featured: true,
     company: "Jumio",
+    logo: "/icons/jumio.png",
     employer: "Recro",
     role: "Frontend Engineer",
     title: "Identity Verification Platform",
@@ -51,6 +53,7 @@ export const work: Work[] = [
     slug: "ton-capital",
     featured: true,
     company: "TON Capital",
+    logo: "/icons/tonCapital.jpg",
     employer: "Recro",
     role: "Frontend Engineer",
     title: "Web3 Investment Platform",
@@ -75,6 +78,7 @@ export const work: Work[] = [
     slug: "trustcheckr",
     featured: true,
     company: "TrustCheckr",
+    logo: "/icons/trustcheckr.jpg",
     employer: "TrustCheckr",
     role: "Frontend Engineer",
     title: "Identity Intelligence Platform",

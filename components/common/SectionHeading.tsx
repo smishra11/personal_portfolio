@@ -15,15 +15,18 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div className={cn("max-w-3xl", className)}>
-      <h2 id={id} className="text-3xl font-bold tracking-tight md:text-5xl">
+      <h2
+        id={id}
+        className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl"
+      >
         {title}
       </h2>
 
-      {subtitle ? (
-        <p className="text-muted-foreground mt-4 text-lg leading-8">
+      {subtitle && (
+        <p className="text-muted-foreground mt-5 max-w-2xl text-base leading-7 md:text-lg md:leading-8">
           {subtitle}
         </p>
-      ) : null}
+      )}
     </div>
   );
 }

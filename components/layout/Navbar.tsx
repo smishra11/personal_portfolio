@@ -1,22 +1,30 @@
+"use client";
+
 import Link from "next/link";
 
-import { Container } from "@/components/layout";
-import { Button } from "@/components/ui/button";
-import { navLinks } from "@/data/navLinks";
 import { ThemeToggle } from "@/components/common";
-import { MobileMenu } from "@/components/layout";
+import { Container, MobileMenu } from "@/components/layout";
+import { Button } from "@/components/ui/button";
+
+import { useActiveSection } from "@/hooks/useActiveSection";
+
+import { navLinks } from "@/data/navLinks";
+import { cn } from "@/lib/utils";
 
 const RESUME_PATH = "/resume.pdf";
 
 export function Navbar() {
+  const activeSection = useActiveSection(
+    navLinks.map((link) => link.href.replace("#", ""))
+  );
+
   return (
-    <header className="border-border bg-background/80 sticky top-0 z-50 h-16 border-b backdrop-blur">
+    <header className="supports-backdrop-filter:bg-background/60 border-border bg-background/70 sticky top-0 z-50 h-16 border-b backdrop-blur-xl">
       <Container className="h-full">
         <nav
           aria-label="Primary navigation"
           className="flex h-full items-center justify-between"
         >
-          {/* Logo */}
           <Link
             href="/"
             className="hover:text-primary text-xl font-bold tracking-tight transition-colors"
@@ -24,22 +32,36 @@ export function Navbar() {
             S<span className="text-primary">M</span>
           </Link>
 
-          {/* Navigation */}
-          <ul className="hidden items-center gap-8 md:flex">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+          <ul className="hidden items-center gap-10 md:flex">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.replace("#", "");
+
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "relative text-sm font-medium transition-all duration-300",
+                      isActive
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    {link.label}
+
+                    <span
+                      className={cn(
+                        "bg-primary absolute -bottom-2 left-0 h-0.5 rounded-full transition-all duration-300",
+                        isActive ? "w-full opacity-100" : "w-0 opacity-0"
+                      )}
+                    />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
-          {/* Resume */}
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-3 md:flex">
             <ThemeToggle />
 
             <Link href={RESUME_PATH} target="_blank" rel="noopener noreferrer">

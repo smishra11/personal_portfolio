@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/common";
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { Hero } from "@/components/sections/Hero";
@@ -9,11 +10,26 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <About />
-      <SelectedWork />
-      <Playground />
-      <WorkExperience />
-      <Contact />
+
+      <Reveal>
+        <About />
+      </Reveal>
+
+      <Reveal delay={0.05}>
+        <SelectedWork />
+      </Reveal>
+
+      <Reveal delay={0.1}>
+        <Playground />
+      </Reveal>
+
+      <Reveal delay={0.15}>
+        <WorkExperience />
+      </Reveal>
+
+      <Reveal delay={0.2}>
+        <Contact />
+      </Reveal>
     </>
   );
 }
