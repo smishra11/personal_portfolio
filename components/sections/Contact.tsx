@@ -1,11 +1,9 @@
 import { Mail, MapPin } from "lucide-react";
 
-import { SocialIcon, SectionHeading } from "@/components/common";
-
+import { ContactForm } from "@/components/contact/ContactForm";
+import { SectionHeading, SocialIcon } from "@/components/common";
 import { Container, Section } from "@/components/layout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+
 import { contact } from "@/data/contact";
 
 export function Contact() {
@@ -24,10 +22,10 @@ export function Contact() {
 
             <div className="mt-10 space-y-6">
               <div className="flex items-center gap-4">
-                <Mail className="text-primary h-5 w-5" />
+                <Mail className="text-primary size-5" />
+
                 <a
                   href={`mailto:${contact.email}`}
-                  aria-label="Email"
                   className="hover:text-primary transition-colors"
                 >
                   {contact.email}
@@ -35,7 +33,7 @@ export function Contact() {
               </div>
 
               <div className="flex items-center gap-4">
-                <MapPin className="text-primary h-5 w-5" />
+                <MapPin className="text-primary size-5" />
 
                 <span>{contact.location}</span>
               </div>
@@ -67,48 +65,7 @@ export function Contact() {
           {/* Right */}
 
           <div className="bg-card border-border rounded-3xl border p-8">
-            <form className="space-y-6">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="mb-2 block text-sm font-medium"
-                >
-                  Name
-                </label>
-
-                <Input id="name" placeholder="John Doe" />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-2 block text-sm font-medium"
-                >
-                  Email
-                </label>
-
-                <Input id="email" type="email" placeholder="john@example.com" />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="mb-2 block text-sm font-medium"
-                >
-                  Message
-                </label>
-
-                <Textarea
-                  id="message"
-                  rows={6}
-                  placeholder="Tell me about your project..."
-                />
-              </div>
-
-              <Button type="submit" size="lg" className="w-full">
-                Send Message
-              </Button>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </Container>
