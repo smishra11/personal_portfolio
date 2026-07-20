@@ -1,63 +1,53 @@
 import Image from "next/image";
-import { LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-type SocialIconProps =
-  | {
-      type: "svg";
-      href: string;
-      alt: string;
-      src: string;
-      darkSrc?: string;
-      className?: string;
-      size?: number;
-    }
-  | {
-      type: "lucide";
-      href: string;
-      alt: string;
-      icon: LucideIcon;
-      className?: string;
-      size?: number;
-    };
+type SocialIconProps = {
+  href: string;
+  alt: string;
+  src: string;
+  darkSrc?: string;
+  className?: string;
+  size?: number;
+};
 
-export function SocialIcon(props: SocialIconProps) {
-  const size = props.size ?? 22;
+export function SocialIcon({
+  href,
+  alt,
+  src,
+  darkSrc,
+  className,
+  size = 22,
+}: SocialIconProps) {
+  const isExternal = href.startsWith("http");
 
   return (
     <a
-      href={props.href}
-      target={props.href.startsWith("http") ? "_blank" : undefined}
-      rel={props.href.startsWith("http") ? "noopener noreferrer" : undefined}
-      aria-label={props.alt}
+      href={href}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
+      aria-label={alt}
       className={cn(
-        "inline-flex items-center justify-center rounded-lg p-2 transition-transform duration-200 hover:scale-110",
-        props.className
+        "inline-flex items-center justify-center transition-all duration-300",
+        className
       )}
     >
-      {props.type === "lucide" ? (
-        <props.icon className="h-5.5 w-5.5" />
-      ) : (
-        <>
-          <Image
-            src={props.src}
-            alt={props.alt}
-            width={size}
-            height={size}
-            className={props.darkSrc ? "block dark:hidden" : "block"}
-          />
+      <Image
+        src={src}
+        alt={alt}
+        width={size}
+        height={size}
+        className={darkSrc ? "block dark:hidden" : "block"}
+      />
 
-          {props.darkSrc && (
-            <Image
-              src={props.darkSrc}
-              alt={props.alt}
-              width={size}
-              height={size}
-              className="hidden dark:block"
-            />
-          )}
-        </>
+      {darkSrc && (
+        <Image
+          src={darkSrc}
+          alt={alt}
+          width={size}
+          height={size}
+          className="hidden dark:block"
+        />
       )}
     </a>
   );

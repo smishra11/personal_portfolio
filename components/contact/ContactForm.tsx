@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -64,20 +64,20 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
-      <div className="space-y-2">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+      <div className="space-y-1.5">
         <label htmlFor="name" className="text-sm font-medium">
           Name
         </label>
 
-        <Input id="name" placeholder="John Doe" {...register("name")} />
+        <Input id="name" placeholder="Your name" {...register("name")} />
 
         {errors.name && (
           <p className="text-destructive text-sm">{errors.name.message}</p>
         )}
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <label htmlFor="email" className="text-sm font-medium">
           Email
         </label>
@@ -85,7 +85,7 @@ export function ContactForm() {
         <Input
           id="email"
           type="email"
-          placeholder="john@example.com"
+          placeholder="your@email.com"
           {...register("email")}
         />
 
@@ -94,15 +94,15 @@ export function ContactForm() {
         )}
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <label htmlFor="message" className="text-sm font-medium">
           Message
         </label>
 
         <Textarea
           id="message"
-          rows={6}
-          placeholder="Tell me about your project..."
+          rows={5}
+          placeholder="Tell me about your project, opportunity, or just say hello..."
           {...register("message")}
         />
 
@@ -114,7 +114,7 @@ export function ContactForm() {
       <Button
         type="submit"
         size="lg"
-        className="w-full cursor-pointer"
+        className="group mt-6 w-full cursor-pointer"
         disabled={isSubmitting}
       >
         {isSubmitting ? (
@@ -123,7 +123,10 @@ export function ContactForm() {
             Sending...
           </>
         ) : (
-          "Send Message"
+          <>
+            Send Message
+            <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </>
         )}
       </Button>
     </form>

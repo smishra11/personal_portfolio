@@ -1,5 +1,3 @@
-import { Mail, type LucideIcon } from "lucide-react";
-
 type SvgSocial = {
   type: "svg";
   name: string;
@@ -8,14 +6,7 @@ type SvgSocial = {
   darkIcon?: string;
 };
 
-type LucideSocial = {
-  type: "lucide";
-  name: string;
-  href: string;
-  icon: LucideIcon;
-};
-
-export type Social = SvgSocial | LucideSocial;
+export type Social = SvgSocial;
 
 export const contact = {
   title: "Let's build something great together.",
@@ -38,10 +29,10 @@ export const contact = {
       icon: "/icons/linkedin.svg",
     },
     {
-      type: "lucide",
+      type: "svg",
       name: "Email",
       href: "mailto:subhasish.mishra17@gmail.com",
-      icon: Mail,
+      icon: "/icons/gmail.svg",
     },
   ] satisfies Social[],
 } as const;
