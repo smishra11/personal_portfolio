@@ -7,12 +7,19 @@ import {
   Target,
 } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import type { NoteVariant, TopicSection } from "@/types/playground";
 
 type Props = {
-  section: Extract<TopicSection, { type: "note" }>;
+  readonly section: Extract<TopicSection, { type: "note" }>;
 };
+
+const CARD_CLASS =
+  "overflow-hidden rounded-2xl border p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(15,23,42,0.06)] dark:shadow-[0_1px_2px_rgba(255,255,255,0.02),0_8px_24px_rgba(0,0,0,0.35)]";
+
+const ICON_WRAPPER_CLASS =
+  "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl";
+
+const LABEL_CLASS = "text-[11px] font-semibold tracking-[0.14em] uppercase";
 
 const VARIANT_CONFIG: Record<
   NoteVariant,
@@ -76,30 +83,14 @@ export function PlaygroundNote({ section }: Props) {
   const Icon = config.icon;
 
   return (
-    <section
-      className={cn(
-        "overflow-hidden rounded-2xl border p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(15,23,42,0.06)] dark:shadow-[0_1px_2px_rgba(255,255,255,0.02),0_8px_24px_rgba(0,0,0,0.35)]",
-        config.border,
-        config.background
-      )}
-    >
+    <section className={`${CARD_CLASS} ${config.border} ${config.background}`}>
       <div className="flex items-start gap-4">
-        <div
-          className={cn(
-            "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl",
-            config.iconBackground
-          )}
-        >
-          <Icon className={cn("size-5", config.color)} />
+        <div className={`${ICON_WRAPPER_CLASS} ${config.iconBackground}`}>
+          <Icon className={`size-5 ${config.color}`} />
         </div>
 
         <div className="min-w-0 flex-1">
-          <span
-            className={cn(
-              "text-[11px] font-semibold tracking-[0.14em] uppercase",
-              config.color
-            )}
-          >
+          <span className={`${LABEL_CLASS} ${config.color}`}>
             {config.label}
           </span>
 

@@ -1,19 +1,14 @@
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  Atom,
-  FileCode2,
-  Gauge,
-  type LucideIcon,
-} from "lucide-react";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 
 import { SectionHeading } from "@/components/common";
 import { Container, Section } from "@/components/layout";
+
 import { playground } from "@/data/playground";
 import { javascriptTopics } from "@/data/javascript";
 import { performanceTopics } from "@/data/performance";
 import { reactTopics } from "@/data/react";
-import Image from "next/image";
 
 const STATUS_STYLES = {
   Live: "bg-green-500/10 text-green-500",
@@ -21,17 +16,17 @@ const STATUS_STYLES = {
   "Coming Soon": "bg-muted text-muted-foreground",
 } as const;
 
-const topicCounts = {
+const TOPIC_COUNTS = {
   javascript: javascriptTopics.length,
   react: reactTopics.length,
   performance: performanceTopics.length,
 } as const;
 
-const playgroundIcons: Record<string, string> = {
+const PLAYGROUND_ICONS = {
   javascript: "/icons/js.svg",
   react: "/icons/react.svg",
   performance: "/icons/performance.svg",
-};
+} as const;
 
 export function Playground() {
   return (
@@ -45,12 +40,17 @@ export function Playground() {
 
         <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {playground.map((item) => {
-            const icon = playgroundIcons[item.slug];
+            const topicCount =
+              TOPIC_COUNTS[item.slug as keyof typeof TOPIC_COUNTS];
+
+            const icon =
+              PLAYGROUND_ICONS[item.slug as keyof typeof PLAYGROUND_ICONS];
 
             return (
               <Link
                 key={item.slug}
                 href={`/playground/${item.slug}`}
+                prefetch={false}
                 className="group block"
               >
                 <article className="bg-card border-border hover:border-primary/20 h-full rounded-2xl border p-5 transition-all duration-300 hover:shadow-md">
@@ -65,8 +65,7 @@ export function Playground() {
                       </span>
 
                       <span className="text-muted-foreground text-xs font-medium">
-                        {topicCounts[item.slug as keyof typeof topicCounts]}{" "}
-                        Topics
+                        {topicCount} Topics
                       </span>
                     </div>
 
@@ -82,6 +81,8 @@ export function Playground() {
                         alt={`${item.title} icon`}
                         width={24}
                         height={24}
+                        sizes="24px"
+                        loading="lazy"
                         className="h-full w-full object-contain"
                       />
                     </div>

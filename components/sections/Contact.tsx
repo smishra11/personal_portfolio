@@ -1,10 +1,28 @@
 import { BriefcaseBusiness, Mail, MapPin } from "lucide-react";
 
-import { ContactForm } from "@/components/contact/ContactForm";
 import { SectionHeading } from "@/components/common";
 import { Container, Section } from "@/components/layout";
 
 import { contact } from "@/data/contact";
+
+import dynamic from "next/dynamic";
+
+const ContactForm = dynamic(
+  () =>
+    import("@/components/contact/ContactForm").then((m) => ({
+      default: m.ContactForm,
+    })),
+  {
+    loading: () => (
+      <div className="space-y-5">
+        <div className="bg-muted h-10 animate-pulse rounded-md" />
+        <div className="bg-muted h-10 animate-pulse rounded-md" />
+        <div className="bg-muted h-32 animate-pulse rounded-md" />
+        <div className="bg-muted h-11 animate-pulse rounded-md" />
+      </div>
+    ),
+  }
+);
 
 export function Contact() {
   return (

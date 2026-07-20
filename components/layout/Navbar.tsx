@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 
 import { ThemeToggle } from "@/components/common";
 import { Container, MobileMenu } from "@/components/layout";
@@ -12,9 +13,16 @@ import { navLinks, RESUME_PATH } from "@/data/navLinks";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
-  const activeSection = useActiveSection(
-    navLinks.map((link) => link.href.split("#")[1] ?? "")
+  const links = useMemo(
+    () =>
+      navLinks.map((link) => ({
+        ...link,
+        sectionId: link.href.split("#")[1] ?? "",
+      })),
+    []
   );
+
+  const activeSection = useActiveSection(links.map((link) => link.sectionId));
 
   return (
     <header className="supports-backdrop-filter:bg-background/60 border-border bg-background/70 sticky top-0 z-50 h-16 border-b backdrop-blur-xl">
@@ -31,9 +39,8 @@ export function Navbar() {
           </Link>
 
           <ul className="hidden items-center gap-10 md:flex">
-            {navLinks.map((link) => {
-              const sectionId = link.href.split("#")[1] ?? "";
-              const isActive = activeSection === sectionId;
+            {links.map((link) => {
+              const isActive = activeSection === link.sectionId;
 
               return (
                 <li key={link.href}>

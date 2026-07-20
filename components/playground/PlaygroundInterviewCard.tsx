@@ -3,13 +3,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { cn } from "@/lib/utils";
 
 type PlaygroundInterviewCardProps = {
-  value: string;
-  question: string;
-  answer: string;
-  difficulty: "Easy" | "Medium" | "Hard";
+  readonly value: string;
+  readonly question: string;
+  readonly answer: string;
+  readonly difficulty: "Easy" | "Medium" | "Hard";
 };
 
 const DIFFICULTY_STYLES = {
@@ -17,6 +16,8 @@ const DIFFICULTY_STYLES = {
   Medium: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
   Hard: "bg-red-500/10 text-red-600 dark:text-red-400",
 } as const;
+
+const BADGE_CLASS = "rounded-full px-3 py-1 text-xs font-semibold";
 
 export function PlaygroundInterviewCard({
   value,
@@ -30,12 +31,7 @@ export function PlaygroundInterviewCard({
         <div className="flex w-full items-center justify-between gap-4 pr-4">
           <span className="text-left font-semibold">{question}</span>
 
-          <span
-            className={cn(
-              "rounded-full px-3 py-1 text-xs font-semibold",
-              DIFFICULTY_STYLES[difficulty]
-            )}
-          >
+          <span className={`${BADGE_CLASS} ${DIFFICULTY_STYLES[difficulty]}`}>
             {difficulty}
           </span>
         </div>

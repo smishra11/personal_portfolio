@@ -1,15 +1,19 @@
+import { cache } from "react";
 import { codeToHtml } from "shiki";
 
-export async function highlightCode(
-  code: string,
-  language: "javascript" | "typescript" | "tsx"
-) {
-  return codeToHtml(code, {
-    lang: language,
-    themes: {
-      light: "github-light",
-      dark: "catppuccin-mocha",
-    },
-    defaultColor: false,
-  });
-}
+export type CodeLanguage = "javascript" | "typescript" | "tsx";
+
+const THEMES = {
+  light: "github-light",
+  dark: "catppuccin-mocha",
+} as const;
+
+export const highlightCode = cache(
+  async (code: string, language: CodeLanguage) => {
+    return codeToHtml(code, {
+      lang: language,
+      themes: THEMES,
+      defaultColor: false,
+    });
+  }
+);

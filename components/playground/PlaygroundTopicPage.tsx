@@ -25,6 +25,9 @@ export async function PlaygroundTopicPage({
   previous,
   next,
 }: PlaygroundTopicPageProps) {
+  const categoryTitle =
+    topic.category.charAt(0).toUpperCase() + topic.category.slice(1);
+
   return (
     <Section className="pt-20">
       <Container className="max-w-4xl">
@@ -38,8 +41,7 @@ export async function PlaygroundTopicPage({
 
             <BreadcrumbItem>
               <BreadcrumbLink href={`/playground/${topic.category}`}>
-                {topic.category.charAt(0).toUpperCase() +
-                  topic.category.slice(1)}
+                {categoryTitle}
               </BreadcrumbLink>
             </BreadcrumbItem>
 
@@ -51,7 +53,7 @@ export async function PlaygroundTopicPage({
           </BreadcrumbList>
         </Breadcrumb>
 
-        <article className="mt-8">
+        <article className="mt-8" aria-labelledby="playground-topic-title">
           <header className="mb-14">
             <div className="mb-4 flex flex-wrap items-center gap-3">
               <Badge variant="secondary">{topic.level}</Badge>
@@ -61,7 +63,10 @@ export async function PlaygroundTopicPage({
               </span>
             </div>
 
-            <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
+            <h1
+              id="playground-topic-title"
+              className="text-4xl font-bold tracking-tight lg:text-5xl"
+            >
               {topic.title}
             </h1>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -22,6 +23,7 @@ export function ContactForm() {
     formState: { errors, isSubmitting },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
+    mode: "onBlur",
     defaultValues: {
       name: "",
       email: "",
@@ -29,39 +31,42 @@ export function ContactForm() {
     },
   });
 
-  async function onSubmit(values: ContactFormValues) {
-    try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
-          subject: "New Portfolio Contact Form Submission",
-          from_name: values.name,
-          ...values,
-        }),
-      });
+  const onSubmit = useCallback(
+    async (values: ContactFormValues) => {
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+            subject: "New Portfolio Contact Form Submission",
+            from_name: values.name,
+            ...values,
+          }),
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
-      if (!result.success) {
-        throw new Error(result.message);
+        if (!result.success) {
+          throw new Error(result.message);
+        }
+
+        toast.success("Message sent!", {
+          description: "Thanks for reaching out. I'll get back to you soon.",
+        });
+
+        reset();
+      } catch {
+        toast.error("Unable to send message", {
+          description: "Please try again in a few moments.",
+        });
       }
-
-      toast.success("Message sent!", {
-        description: "Thanks for reaching out. I'll get back to you soon.",
-      });
-
-      reset();
-    } catch {
-      toast.error("Unable to send message", {
-        description: "Please try again in a few moments.",
-      });
-    }
-  }
+    },
+    [reset]
+  );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
@@ -70,7 +75,13 @@ export function ContactForm() {
           Name
         </label>
 
-        <Input id="name" placeholder="Your name" {...register("name")} />
+        <Input
+          id="name"
+          placeholder="Your name"
+          autoComplete="name"
+          aria-invalid={!!errors.name}
+          {...register("name")}
+        />
 
         {errors.name && (
           <p className="text-destructive text-sm">{errors.name.message}</p>
@@ -86,6 +97,8 @@ export function ContactForm() {
           id="email"
           type="email"
           placeholder="your@email.com"
+          autoComplete="email"
+          aria-invalid={!!errors.email}
           {...register("email")}
         />
 
@@ -103,6 +116,7 @@ export function ContactForm() {
           id="message"
           rows={5}
           placeholder="Tell me about your project, opportunity, or just say hello..."
+          aria-invalid={!!errors.message}
           {...register("message")}
         />
 

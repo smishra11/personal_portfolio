@@ -26,7 +26,7 @@ export function SocialIcon({
       href={href}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
-      aria-label={alt}
+      aria-hidden="true"
       className={cn(
         "inline-flex items-center justify-center transition-all duration-300",
         className
