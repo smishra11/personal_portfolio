@@ -17,9 +17,17 @@ export function PlaygroundPage({
   topics,
 }: PlaygroundPageProps) {
   return (
-    <Section className="py-24">
+    <Section>
       <Container>
         <SectionHeading title={title} subtitle={subtitle} />
+
+        <div className="mt-6 flex items-center gap-3 text-sm">
+          <span className="bg-primary/10 text-primary rounded-full px-3 py-1 font-medium">
+            {topics.length} Topics
+          </span>
+
+          <span className="text-muted-foreground">Beginner → Advanced</span>
+        </div>
 
         <PlaygroundTopicGrid basePath={basePath} topics={topics} />
       </Container>

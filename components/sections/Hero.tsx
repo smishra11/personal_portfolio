@@ -7,6 +7,7 @@ import { ArrowRight, Download } from "lucide-react";
 import { Container, Section } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { profile } from "@/data/profile";
+import { RESUME_PATH } from "@/data/navLinks";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -72,11 +73,7 @@ export function Hero() {
               </Button>
             </Link>
 
-            <Link
-              href={profile.resume}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href={RESUME_PATH} target="_blank" rel="noopener noreferrer">
               <Button variant="outline" size="lg">
                 <Download className="mr-2 size-4 transition-transform duration-300 group-hover/button:-translate-y-0.5" />
                 Download Resume

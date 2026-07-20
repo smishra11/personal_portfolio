@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowUpRight, Clock3 } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import type { PlaygroundTopic } from "@/types/playground";
-import { Badge } from "../ui/badge";
 
 type PlaygroundTopicCardProps = {
   topic: PlaygroundTopic;
@@ -19,34 +19,40 @@ export function PlaygroundTopicCard({ topic, href }: PlaygroundTopicCardProps) {
   return (
     <Link
       href={href}
-      className="group border-border bg-card hover:border-primary/30 block rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+      className="group bg-card border-border hover:border-primary/30 block rounded-2xl border p-5 transition-all duration-300 hover:shadow-lg"
     >
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between">
         <span
           className={`rounded-full px-3 py-1 text-xs font-semibold ${LEVEL_STYLES[topic.level]}`}
         >
           {topic.level}
         </span>
 
-        <div className="bg-muted group-hover:bg-primary/10 rounded-full p-1.5 transition-colors">
-          <ArrowUpRight />
+        <div className="bg-primary/10 text-primary rounded-full p-2 transition-colors">
+          <ArrowUpRight className="size-4" />
         </div>
       </div>
 
-      <h3 className="mt-4 text-2xl font-bold tracking-tight">{topic.title}</h3>
+      <h3 className="mt-4 text-xl font-semibold tracking-tight">
+        {topic.title}
+      </h3>
 
-      <p className="text-muted-foreground mt-4 line-clamp-2 leading-7">
+      <p className="text-muted-foreground mt-3 line-clamp-2 text-sm leading-6">
         {topic.description}
       </p>
 
-      <div className="text-muted-foreground mt-6 flex items-center gap-2 text-sm">
-        <Clock3 className="size-4" />
+      <div className="text-muted-foreground mt-5 flex items-center gap-2 text-xs">
+        <Clock3 className="size-3.5" />
         <span>{topic.estimatedReadTime} read</span>
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap gap-2">
         {topic.tags.map((tag) => (
-          <Badge key={tag} variant="outline" className="text-xs">
+          <Badge
+            key={tag}
+            variant="secondary"
+            className="rounded-full px-2.5 py-0.5 text-[11px] font-medium"
+          >
             {tag}
           </Badge>
         ))}

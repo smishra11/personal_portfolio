@@ -1,8 +1,9 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { ArrowRight, Download, Menu } from "lucide-react";
 
 import { ThemeToggle, SocialIcon } from "@/components/common";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+
 import { contact } from "@/data/contact";
+import { cn } from "@/lib/utils";
 
 type NavLink = {
   label: string;
@@ -27,6 +30,7 @@ type MobileMenuProps = {
 };
 
 export function MobileMenu({ navLinks, resumePath }: MobileMenuProps) {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   return (
@@ -35,7 +39,7 @@ export function MobileMenu({ navLinks, resumePath }: MobileMenuProps) {
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
-          className="hover:bg-muted inline-flex h-9 w-9 items-center justify-center rounded-lg transition-colors"
+          className="hover:bg-muted inline-flex h-10 w-10 items-center justify-center rounded-xl transition-colors"
           aria-label="Open navigation menu"
         >
           <Menu className="size-5" />
@@ -43,65 +47,70 @@ export function MobileMenu({ navLinks, resumePath }: MobileMenuProps) {
 
         <SheetContent
           side="right"
-          className="flex h-full w-full flex-col p-6 sm:max-w-sm"
+          className="flex h-full w-full flex-col border-l p-0 sm:max-w-sm"
         >
-          <SheetHeader className="p-0">
-            <SheetTitle>Navigation</SheetTitle>
+          {/* Header */}
 
-            <SheetDescription>Explore my portfolio.</SheetDescription>
-          </SheetHeader>
+          <div className="border-border border-b px-6 py-6">
+            <SheetHeader className="space-y-1 text-left">
+              <SheetTitle className="text-xl font-bold tracking-tight">
+                Navigation
+              </SheetTitle>
+
+              <SheetDescription>Explore my portfolio.</SheetDescription>
+            </SheetHeader>
+          </div>
 
           {/* Navigation */}
-          <nav className="mt-10 flex flex-col">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="hover:bg-muted rounded-lg px-4 py-3 text-base font-medium transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+
+          <nav className="flex-1 px-4 py-6">
+            <div className="space-y-2">
+              {navLinks.map((link) => {
+                const href = pathname === "/" ? link.href : `/${link.href}`;
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "group hover:bg-muted flex items-center justify-between rounded-xl px-4 py-4 text-base font-medium transition-all duration-200"
+                    )}
+                  >
+                    <span>{link.label}</span>
+
+                    <ArrowRight className="text-muted-foreground size-4 transition-transform duration-200 group-hover:translate-x-1" />
+                  </Link>
+                );
+              })}
+            </div>
           </nav>
 
-          {/* Bottom */}
-          <div className="mt-auto border-t pt-6">
+          {/* Footer */}
+
+          <div className="border-border space-y-6 border-t px-6 py-6">
             <Link
               href={resumePath}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
             >
-              <Button className="w-full">Download Resume</Button>
+              <Button className="w-full">
+                <Download className="mr-2 size-4" />
+                Download Resume
+              </Button>
             </Link>
 
-            <div className="mt-6">
-              <p className="text-muted-foreground mb-3 text-sm font-medium">
-                Connect with me
-              </p>
-
-              <div className="flex items-center gap-3">
-                {contact.socials.map((social) => (
-                  <SocialIcon
-                    key={social.name}
-                    {...(social.type === "svg"
-                      ? {
-                          type: "svg",
-                          href: social.href,
-                          alt: social.name,
-                          src: social.icon,
-                          darkSrc: social.darkIcon,
-                        }
-                      : {
-                          type: "lucide",
-                          href: social.href,
-                          alt: social.name,
-                          icon: social.icon,
-                        })}
-                  />
-                ))}
-              </div>
+            <div className="mt-4 flex items-center justify-center gap-4">
+              {contact.socials.map((social) => (
+                <SocialIcon
+                  key={social.name}
+                  href={social.href}
+                  alt={social.name}
+                  src={social.icon}
+                  darkSrc={social.darkIcon}
+                />
+              ))}
             </div>
           </div>
         </SheetContent>

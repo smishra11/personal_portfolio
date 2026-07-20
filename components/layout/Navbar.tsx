@@ -8,14 +8,12 @@ import { Button } from "@/components/ui/button";
 
 import { useActiveSection } from "@/hooks/useActiveSection";
 
-import { navLinks } from "@/data/navLinks";
+import { navLinks, RESUME_PATH } from "@/data/navLinks";
 import { cn } from "@/lib/utils";
-
-const RESUME_PATH = "/resume.pdf";
 
 export function Navbar() {
   const activeSection = useActiveSection(
-    navLinks.map((link) => link.href.replace("#", ""))
+    navLinks.map((link) => link.href.split("#")[1] ?? "")
   );
 
   return (
@@ -34,7 +32,8 @@ export function Navbar() {
 
           <ul className="hidden items-center gap-10 md:flex">
             {navLinks.map((link) => {
-              const isActive = activeSection === link.href.replace("#", "");
+              const sectionId = link.href.split("#")[1] ?? "";
+              const isActive = activeSection === sectionId;
 
               return (
                 <li key={link.href}>

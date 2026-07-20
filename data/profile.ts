@@ -4,7 +4,6 @@ export const profile = {
   title: "Building high-performance React & Next.js applications.",
   description:
     "Frontend Engineer with 4+ years of experience building scalable web applications, workflow automation tools, and modern user interfaces with a strong focus on performance, accessibility, and exceptional user experience.",
-  resume: "/resume.pdf",
   footerTagline:
     "Building performant, scalable and delightful web experiences.",
   techStack: [

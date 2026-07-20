@@ -1,23 +1,25 @@
+export const RESUME_PATH = "/smishra_resume.pdf";
+
 export const navLinks = [
   {
     label: "About",
-    href: "#about",
+    href: "/#about",
   },
   {
     label: "Works",
-    href: "#work",
+    href: "/#work",
   },
   {
     label: "Playground",
-    href: "#playground",
+    href: "/#playground",
   },
   {
     label: "Experience",
-    href: "#experience",
+    href: "/#experience",
   },
 
   {
     label: "Contact",
-    href: "#contact",
+    href: "/#contact",
   },
 ] as const;

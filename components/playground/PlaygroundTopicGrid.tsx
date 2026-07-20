@@ -11,7 +11,7 @@ export function PlaygroundTopicGrid({
   basePath,
 }: PlaygroundTopicGridProps) {
   return (
-    <div className="mt-16 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
       {topics.map((topic) => (
         <PlaygroundTopicCard
           key={topic.slug}

@@ -25,32 +25,38 @@ function NavigationCard({ topic, direction }: NavigationCardProps) {
     >
       <article
         className={cn(
-          "bg-card border-border hover:border-primary/40 flex h-full flex-col rounded-2xl border p-6 transition-all duration-300",
-          "hover:bg-muted/30 hover:-translate-y-1"
+          "bg-card border-border hover:border-primary/30 flex h-full flex-col rounded-2xl border p-5",
+          "shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(15,23,42,0.06)]",
+          "dark:shadow-[0_1px_2px_rgba(255,255,255,0.02),0_8px_24px_rgba(0,0,0,0.35)]",
+          "transition-all duration-300 hover:shadow-lg"
         )}
       >
         <div
           className={cn(
-            "text-muted-foreground mb-4 flex items-center gap-2 text-sm font-medium",
+            "text-muted-foreground mb-4 flex items-center gap-2 text-xs font-semibold tracking-wide uppercase",
             !isPrevious && "justify-end"
           )}
         >
           {isPrevious ? (
             <>
-              <ArrowLeft className="size-4" />
+              <span className="bg-primary/10 text-primary flex size-7 items-center justify-center rounded-full">
+                <ArrowLeft className="size-3.5" />
+              </span>
               Previous
             </>
           ) : (
             <>
               Next
-              <ArrowRight className="size-4" />
+              <span className="bg-primary/10 text-primary flex size-7 items-center justify-center rounded-full">
+                <ArrowRight className="size-3.5" />
+              </span>
             </>
           )}
         </div>
 
         <h3
           className={cn(
-            "text-lg font-semibold tracking-tight",
+            "text-base font-semibold tracking-tight",
             !isPrevious && "text-right"
           )}
         >
@@ -59,7 +65,7 @@ function NavigationCard({ topic, direction }: NavigationCardProps) {
 
         <p
           className={cn(
-            "text-muted-foreground mt-2 line-clamp-1 flex-1 text-sm leading-7",
+            "text-muted-foreground mt-2 line-clamp-2 flex-1 text-sm leading-6",
             !isPrevious && "text-right"
           )}
         >
@@ -81,7 +87,7 @@ export function PlaygroundPagination({
   return (
     <nav
       aria-label="Topic navigation"
-      className="mt-16 grid gap-4 md:grid-cols-2"
+      className="mt-12 grid gap-5 md:grid-cols-2"
     >
       <div>
         {previous && <NavigationCard topic={previous} direction="previous" />}
