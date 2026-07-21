@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://your-domain.com"),
+  metadataBase: new URL("https://subhasish-mishra.vercel.app/"),
   title: {
     default: "Subhasish Mishra | Frontend Engineer",
     template: "%s | Subhasish Mishra",
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://your-domain.com",
+    url: "https://subhasish-mishra.vercel.app/",
     title: "Subhasish Mishra | Frontend Engineer",
     description:
       "Frontend Engineer specializing in React, Next.js, TypeScript, and modern web applications. Explore production projects, frontend architecture, JavaScript deep dives, and interactive engineering playgrounds.",
