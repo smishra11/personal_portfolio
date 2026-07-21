@@ -8,21 +8,36 @@ export function useActiveSection(sectionIds: readonly string[]) {
   useEffect(() => {
     const elements = sectionIds
       .map((id) => document.getElementById(id))
-      .filter(Boolean) as HTMLElement[];
+      .filter((element): element is HTMLElement => element !== null);
 
     if (!elements.length) return;
 
+    const updateActiveSection = () => {
+      const viewportCenter = window.innerHeight * 0.35;
+
+      let current = elements[0];
+
+      for (const element of elements) {
+        const rect = element.getBoundingClientRect();
+
+        if (rect.top <= viewportCenter) {
+          current = element;
+        } else {
+          break;
+        }
+      }
+
+      setActiveSection((previous) =>
+        previous === current.id ? previous : current.id
+      );
+    };
+
+    // Set the correct active section on initial load
+    requestAnimationFrame(updateActiveSection);
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleSection = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (!visibleSection) return;
-
-        const id = visibleSection.target.id;
-
-        setActiveSection((previous) => (previous === id ? previous : id));
+      () => {
+        updateActiveSection();
       },
       {
         rootMargin: "-35% 0px -55% 0px",
@@ -32,7 +47,14 @@ export function useActiveSection(sectionIds: readonly string[]) {
 
     elements.forEach((element) => observer.observe(element));
 
-    return () => observer.disconnect();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
+    };
   }, [sectionIds]);
 
   return activeSection;
