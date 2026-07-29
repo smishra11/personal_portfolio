@@ -26,7 +26,8 @@ export const playground: PlaygroundItem[] = [
     title: "React",
     description:
       "A collection of React experiments covering hooks, rendering, React 19 features, and modern architecture patterns.",
-    status: "In Progress",
+    // status: "In Progress",
+    status: "Live",
     topicCount: reactTopics.length,
     tags: ["React 19", "Hooks", "Rendering"],
   },
@@ -35,7 +36,7 @@ export const playground: PlaygroundItem[] = [
     title: "Performance",
     description:
       "Hands-on explorations of frontend performance, rendering optimization, memoization, virtualization, and bundle analysis.",
-    status: "Coming Soon",
+    status: "Live",
     topicCount: performanceTopics.length,
     tags: ["Memoization", "Virtualization", "Lazy Loading"],
   },

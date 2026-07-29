@@ -115,7 +115,7 @@ export function ContactForm() {
         <Textarea
           id="message"
           rows={5}
-          placeholder="Tell me about your project, opportunity, or just say hello..."
+          placeholder="Tell me about your opportunity, or just say hello..."
           aria-invalid={!!errors.message}
           {...register("message")}
         />
