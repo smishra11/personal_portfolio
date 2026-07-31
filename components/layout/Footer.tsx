@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="mt-24">
       {/* Divider */}
-      <div className="via-border h-px bg-gradient-to-r from-transparent to-transparent" />
+      <div className="via-border h-px bg-linear-to-r from-transparent to-transparent" />
 
       <Container>
         <div className="py-14">

@@ -45,8 +45,10 @@ export function ChatWindow({
 
   return (
     <section
+      role="dialog"
+      aria-modal="true"
       aria-label="Portfolio chatbot"
-      className="border-border bg-background flex h-[min(680px,calc(100dvh-7rem))] w-[calc(100vw-2rem)] max-w-97.5 flex-col overflow-hidden rounded-2xl border shadow-2xl"
+      className="border-border bg-background fixed inset-x-0 bottom-0 z-50 flex h-[85dvh] w-full flex-col overflow-hidden rounded-t-2xl border border-b-0 shadow-2xl sm:static sm:h-[min(680px,calc(100dvh-7rem))] sm:w-97.5 sm:rounded-2xl sm:border"
     >
       <ChatHeader
         hasMessages={hasMessages}
@@ -57,7 +59,7 @@ export function ChatWindow({
 
       <div
         ref={messagesContainerRef}
-        className="min-h-0 flex-1 overflow-y-auto"
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain"
       >
         {!hasMessages ? (
           <div className="flex h-full flex-col justify-between gap-6 p-4">
@@ -83,11 +85,12 @@ export function ChatWindow({
         ) : (
           <div
             aria-live="polite"
-            aria-relevant="additions text"
+            aria-relevant="additions"
             className="space-y-4 p-4"
           >
             {messages.map((message, index) => {
               const isLastMessage = index === messages.length - 1;
+
               const isStreaming =
                 isLoading && isLastMessage && message.role === "assistant";
 

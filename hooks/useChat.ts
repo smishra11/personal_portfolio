@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export type ChatMessage = {
   id: string;
@@ -10,14 +11,16 @@ export type ChatMessage = {
 
 type ChatApiMessage = Pick<ChatMessage, "role" | "content">;
 
+type ChatErrorResponse = {
+  error?: string;
+};
+
 const MAX_MESSAGE_LENGTH = 1_000;
 const MAX_HISTORY_MESSAGES = 20;
 
-/**
- * Lower values reveal text faster.
- * Around 8–12ms feels smooth without making longer answers too slow.
- */
 const CHARACTER_DELAY = 10;
+const STREAM_WAIT_DELAY = 20;
+const REQUEST_TIMEOUT = 30_000;
 
 function createMessage(
   role: ChatMessage["role"],
@@ -36,7 +39,13 @@ function wait(duration: number): Promise<void> {
   });
 }
 
+function isAbortError(error: unknown): boolean {
+  return error instanceof DOMException && error.name === "AbortError";
+}
+
 export function useChat() {
+  const pathname = usePathname();
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,6 +53,8 @@ export function useChat() {
   const messagesRef = useRef<ChatMessage[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);
   const generationIdRef = useRef(0);
+  const isSendingRef = useRef(false);
+  const timedOutRef = useRef(false);
 
   useEffect(() => {
     messagesRef.current = messages;
@@ -76,7 +87,7 @@ export function useChat() {
     async (value: string) => {
       const content = value.trim();
 
-      if (!content || isLoading) {
+      if (!content || isSendingRef.current) {
         return;
       }
 
@@ -86,6 +97,9 @@ export function useChat() {
         );
         return;
       }
+
+      isSendingRef.current = true;
+      timedOutRef.current = false;
 
       setError(null);
       setIsLoading(true);
@@ -105,6 +119,11 @@ export function useChat() {
       const generationId = generationIdRef.current + 1;
       generationIdRef.current = generationId;
 
+      const timeoutId = window.setTimeout(() => {
+        timedOutRef.current = true;
+        controller.abort();
+      }, REQUEST_TIMEOUT);
+
       try {
         const apiMessages: ChatApiMessage[] = conversationHistory.map(
           ({ role, content: messageContent }) => ({
@@ -120,14 +139,15 @@ export function useChat() {
           },
           body: JSON.stringify({
             messages: apiMessages,
+            pathname,
           }),
           signal: controller.signal,
         });
 
         if (!response.ok) {
-          const responseBody = (await response.json().catch(() => null)) as {
-            error?: string;
-          } | null;
+          const responseBody = (await response
+            .json()
+            .catch(() => null)) as ChatErrorResponse | null;
 
           throw new Error(
             responseBody?.error ??
@@ -146,11 +166,6 @@ export function useChat() {
         let displayedContent = "";
         let streamFinished = false;
 
-        /**
-         * Reads Gemini's streamed chunks in the background and adds them
-         * to a buffer. Gemini may return one character, one word, or a
-         * larger block of text in each chunk.
-         */
         const readStream = async () => {
           try {
             while (true) {
@@ -172,9 +187,6 @@ export function useChat() {
 
         const streamPromise = readStream();
 
-        /**
-         * Reveals the buffered response progressively.
-         */
         while (
           !streamFinished ||
           displayedContent.length < bufferedContent.length
@@ -193,11 +205,7 @@ export function useChat() {
 
             await wait(CHARACTER_DELAY);
           } else {
-            /**
-             * No new characters are currently available, so briefly wait
-             * for the next network chunk without repeatedly updating state.
-             */
-            await wait(20);
+            await wait(STREAM_WAIT_DELAY);
           }
         }
 
@@ -207,19 +215,22 @@ export function useChat() {
           throw new Error("The assistant returned an empty response.");
         }
       } catch (requestError) {
-        if (
-          requestError instanceof DOMException &&
-          requestError.name === "AbortError"
-        ) {
+        if (isAbortError(requestError)) {
+          if (timedOutRef.current) {
+            setError(
+              "The assistant took too long to respond. Please try again."
+            );
+          }
+
           return;
         }
 
-        const message =
+        const errorMessage =
           requestError instanceof Error
             ? requestError.message
             : "Something went wrong. Please try again.";
 
-        setError(message);
+        setError(errorMessage);
 
         setMessages((currentMessages) =>
           currentMessages.filter(
@@ -229,6 +240,8 @@ export function useChat() {
           )
         );
       } finally {
+        window.clearTimeout(timeoutId);
+
         if (generationIdRef.current === generationId) {
           setIsLoading(false);
         }
@@ -236,15 +249,22 @@ export function useChat() {
         if (abortControllerRef.current === controller) {
           abortControllerRef.current = null;
         }
+
+        isSendingRef.current = false;
+        timedOutRef.current = false;
       }
     },
-    [isLoading, updateAssistantMessage]
+    [pathname, updateAssistantMessage]
   );
 
   const stopGeneration = useCallback(() => {
     generationIdRef.current += 1;
+    timedOutRef.current = false;
+    isSendingRef.current = false;
+
     abortControllerRef.current?.abort();
     abortControllerRef.current = null;
+
     setIsLoading(false);
 
     setMessages((currentMessages) =>
@@ -257,6 +277,9 @@ export function useChat() {
 
   const clearMessages = useCallback(() => {
     generationIdRef.current += 1;
+    timedOutRef.current = false;
+    isSendingRef.current = false;
+
     abortControllerRef.current?.abort();
     abortControllerRef.current = null;
 
