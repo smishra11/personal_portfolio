@@ -347,7 +347,7 @@ export async function POST(request: Request) {
       config: {
         systemInstruction: buildSystemInstruction(pathname),
         temperature: 0.3,
-        maxOutputTokens: 500,
+        maxOutputTokens: 1_000,
       },
     });
 

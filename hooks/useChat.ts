@@ -15,12 +15,15 @@ type ChatErrorResponse = {
   error?: string;
 };
 
-const MAX_MESSAGE_LENGTH = 1_000;
+const MAX_USER_MESSAGE_LENGTH = 1_000;
+const MAX_ASSISTANT_MESSAGE_LENGTH = 10_000;
 const MAX_HISTORY_MESSAGES = 20;
 
 const CHARACTER_DELAY = 10;
 const STREAM_WAIT_DELAY = 20;
-const REQUEST_TIMEOUT = 30_000;
+const REQUEST_START_TIMEOUT = 30_000;
+
+const CHAT_STORAGE_KEY = "portfolio-chat-messages";
 
 function createMessage(
   role: ChatMessage["role"],
@@ -43,6 +46,105 @@ function isAbortError(error: unknown): boolean {
   return error instanceof DOMException && error.name === "AbortError";
 }
 
+function isStoredChatMessage(value: unknown): value is ChatMessage {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const message = value as Record<string, unknown>;
+
+  if (
+    typeof message.id !== "string" ||
+    message.id.length === 0 ||
+    (message.role !== "user" && message.role !== "assistant") ||
+    typeof message.content !== "string" ||
+    message.content.trim().length === 0
+  ) {
+    return false;
+  }
+
+  const maximumLength =
+    message.role === "user"
+      ? MAX_USER_MESSAGE_LENGTH
+      : MAX_ASSISTANT_MESSAGE_LENGTH;
+
+  return message.content.length <= maximumLength;
+}
+
+function getStoredMessages(): ChatMessage[] {
+  try {
+    const storedValue = window.sessionStorage.getItem(CHAT_STORAGE_KEY);
+
+    if (!storedValue) {
+      return [];
+    }
+
+    const parsedValue: unknown = JSON.parse(storedValue);
+
+    if (!Array.isArray(parsedValue)) {
+      window.sessionStorage.removeItem(CHAT_STORAGE_KEY);
+      return [];
+    }
+
+    const validMessages = parsedValue
+      .filter(isStoredChatMessage)
+      .slice(-MAX_HISTORY_MESSAGES);
+
+    if (validMessages.length !== parsedValue.length) {
+      window.sessionStorage.setItem(
+        CHAT_STORAGE_KEY,
+        JSON.stringify(validMessages)
+      );
+    }
+
+    return validMessages;
+  } catch {
+    try {
+      window.sessionStorage.removeItem(CHAT_STORAGE_KEY);
+    } catch {
+      // Browser storage may be disabled.
+    }
+
+    return [];
+  }
+}
+
+function saveMessages(messages: readonly ChatMessage[]) {
+  try {
+    const persistableMessages = messages
+      .filter((message) => message.content.trim().length > 0)
+      .slice(-MAX_HISTORY_MESSAGES);
+
+    if (persistableMessages.length === 0) {
+      window.sessionStorage.removeItem(CHAT_STORAGE_KEY);
+      return;
+    }
+
+    window.sessionStorage.setItem(
+      CHAT_STORAGE_KEY,
+      JSON.stringify(persistableMessages)
+    );
+  } catch {
+    // Continue without persistence when browser storage is unavailable.
+  }
+}
+
+function getCharactersPerTick(remainingCharacters: number): number {
+  if (remainingCharacters > 500) {
+    return 8;
+  }
+
+  if (remainingCharacters > 250) {
+    return 5;
+  }
+
+  if (remainingCharacters > 100) {
+    return 3;
+  }
+
+  return 1;
+}
+
 export function useChat() {
   const pathname = usePathname();
 
@@ -55,10 +157,45 @@ export function useChat() {
   const generationIdRef = useRef(0);
   const isSendingRef = useRef(false);
   const timedOutRef = useRef(false);
+  const hasRestoredMessagesRef = useRef(false);
 
+  /*
+   * Restore session history after hydration so the server and initial
+   * client render both begin with an empty conversation.
+   */
+  useEffect(() => {
+    const frameId = window.requestAnimationFrame(() => {
+      const storedMessages = getStoredMessages();
+
+      messagesRef.current = storedMessages;
+      hasRestoredMessagesRef.current = true;
+
+      setMessages(storedMessages);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, []);
+
+  /*
+   * Keep the latest messages available to async callbacks.
+   */
   useEffect(() => {
     messagesRef.current = messages;
   }, [messages]);
+
+  /*
+   * Save only completed or stopped conversations.
+   * This prevents a sessionStorage write after every streamed character.
+   */
+  useEffect(() => {
+    if (!hasRestoredMessagesRef.current || isLoading) {
+      return;
+    }
+
+    saveMessages(messages);
+  }, [messages, isLoading]);
 
   useEffect(() => {
     return () => {
@@ -91,9 +228,9 @@ export function useChat() {
         return;
       }
 
-      if (content.length > MAX_MESSAGE_LENGTH) {
+      if (content.length > MAX_USER_MESSAGE_LENGTH) {
         setError(
-          `Your message must be ${MAX_MESSAGE_LENGTH} characters or fewer.`
+          `Your message must be ${MAX_USER_MESSAGE_LENGTH} characters or fewer.`
         );
         return;
       }
@@ -111,7 +248,9 @@ export function useChat() {
         -MAX_HISTORY_MESSAGES
       );
 
-      setMessages([...conversationHistory, assistantMessage]);
+      messagesRef.current = [...conversationHistory, assistantMessage];
+
+      setMessages(messagesRef.current);
 
       const controller = new AbortController();
       abortControllerRef.current = controller;
@@ -122,7 +261,7 @@ export function useChat() {
       const timeoutId = window.setTimeout(() => {
         timedOutRef.current = true;
         controller.abort();
-      }, REQUEST_TIMEOUT);
+      }, REQUEST_START_TIMEOUT);
 
       try {
         const apiMessages: ChatApiMessage[] = conversationHistory.map(
@@ -143,6 +282,13 @@ export function useChat() {
           }),
           signal: controller.signal,
         });
+
+        /*
+         * The server has started responding. Do not let the initial timeout
+         * interrupt the response stream or the typing animation.
+         */
+        window.clearTimeout(timeoutId);
+        timedOutRef.current = false;
 
         if (!response.ok) {
           const responseBody = (await response
@@ -165,6 +311,7 @@ export function useChat() {
         let bufferedContent = "";
         let displayedContent = "";
         let streamFinished = false;
+        let streamError: unknown = null;
 
         const readStream = async () => {
           try {
@@ -180,6 +327,8 @@ export function useChat() {
                 stream: true,
               });
             }
+          } catch (readError) {
+            streamError = readError;
           } finally {
             streamFinished = true;
           }
@@ -198,8 +347,16 @@ export function useChat() {
             return;
           }
 
-          if (displayedContent.length < bufferedContent.length) {
-            displayedContent += bufferedContent.charAt(displayedContent.length);
+          const remainingCharacters =
+            bufferedContent.length - displayedContent.length;
+
+          if (remainingCharacters > 0) {
+            const charactersPerTick = getCharactersPerTick(remainingCharacters);
+
+            displayedContent = bufferedContent.slice(
+              0,
+              displayedContent.length + charactersPerTick
+            );
 
             updateAssistantMessage(assistantMessage.id, displayedContent);
 
@@ -211,6 +368,20 @@ export function useChat() {
 
         await streamPromise;
 
+        if (streamError) {
+          throw streamError;
+        }
+
+        /*
+         * Guarantee that the final rendered message exactly matches the
+         * complete response received from the API.
+         */
+        if (displayedContent !== bufferedContent) {
+          displayedContent = bufferedContent;
+
+          updateAssistantMessage(assistantMessage.id, displayedContent);
+        }
+
         if (!displayedContent.trim()) {
           throw new Error("The assistant returned an empty response.");
         }
@@ -218,7 +389,7 @@ export function useChat() {
         if (isAbortError(requestError)) {
           if (timedOutRef.current) {
             setError(
-              "The assistant took too long to respond. Please try again."
+              "The assistant took too long to begin responding. Please try again."
             );
           }
 
@@ -283,9 +454,17 @@ export function useChat() {
     abortControllerRef.current?.abort();
     abortControllerRef.current = null;
 
+    messagesRef.current = [];
+
     setMessages([]);
     setError(null);
     setIsLoading(false);
+
+    try {
+      window.sessionStorage.removeItem(CHAT_STORAGE_KEY);
+    } catch {
+      // Browser storage may be unavailable.
+    }
   }, []);
 
   return {

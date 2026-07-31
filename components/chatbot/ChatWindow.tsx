@@ -1,12 +1,15 @@
 "use client";
 
-import { type RefObject, useEffect, useRef } from "react";
+import { type RefObject, useEffect, useMemo, useRef } from "react";
 import { AlertCircle } from "lucide-react";
 
 import { ChatHeader } from "@/components/chatbot/ChatHeader";
 import { ChatInput } from "@/components/chatbot/ChatInput";
 import { ChatMessage } from "@/components/chatbot/ChatMessage";
-import { SuggestedQuestions } from "@/components/chatbot/SuggestedQuestions";
+import {
+  getFollowUpQuestions,
+  SuggestedQuestions,
+} from "@/components/chatbot/SuggestedQuestions";
 
 import type { ChatMessage as ChatMessageType } from "@/hooks/useChat";
 
@@ -33,6 +36,32 @@ export function ChatWindow({
 
   const hasMessages = messages.length > 0;
 
+  const latestUserMessage = useMemo(() => {
+    for (let index = messages.length - 1; index >= 0; index -= 1) {
+      const message = messages[index];
+
+      if (message?.role === "user") {
+        return message.content;
+      }
+    }
+
+    return "";
+  }, [messages]);
+
+  const followUpQuestions = useMemo(
+    () => getFollowUpQuestions(latestUserMessage),
+    [latestUserMessage]
+  );
+
+  const latestMessage = messages.at(-1);
+
+  const showFollowUpQuestions =
+    hasMessages &&
+    !isLoading &&
+    !error &&
+    latestMessage?.role === "assistant" &&
+    latestMessage.content.trim().length > 0;
+
   useEffect(() => {
     const container = messagesContainerRef.current;
 
@@ -42,7 +71,7 @@ export function ChatWindow({
       top: container.scrollHeight,
       behavior: "smooth",
     });
-  }, [messages, isLoading, error]);
+  }, [messages, isLoading, error, showFollowUpQuestions]);
 
   return (
     <section className="bg-background flex h-full min-h-0 w-full flex-col overflow-hidden">
@@ -102,6 +131,19 @@ export function ChatWindow({
                 <AlertCircle className="mt-0.5 size-4 shrink-0" />
 
                 <p>{error}</p>
+              </div>
+            )}
+
+            {showFollowUpQuestions && (
+              <div className="border-border border-t pt-4">
+                <SuggestedQuestions
+                  questions={followUpQuestions}
+                  isLoading={isLoading}
+                  onSelect={onSend}
+                  title="Continue exploring"
+                  description=""
+                  compact
+                />
               </div>
             )}
           </div>
