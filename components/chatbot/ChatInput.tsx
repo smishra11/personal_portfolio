@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { forwardRef, type FormEvent, useState } from "react";
 import { Send, Square } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -13,14 +13,14 @@ type ChatInputProps = {
 
 const MAX_MESSAGE_LENGTH = 1_000;
 
-export function ChatInput({
-  isLoading,
-  onSend,
-  onStop,
-}: Readonly<ChatInputProps>) {
+export const ChatInput = forwardRef<
+  HTMLTextAreaElement,
+  Readonly<ChatInputProps>
+>(function ChatInput({ isLoading, onSend, onStop }, ref) {
   const [value, setValue] = useState("");
 
   const trimmedValue = value.trim();
+
   const canSend = trimmedValue.length > 0 && !isLoading;
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -33,14 +33,15 @@ export function ChatInput({
   }
 
   return (
-    <div className="border-border border-t p-3">
+    <div className="border-border bg-background border-t p-3">
       <form onSubmit={handleSubmit} className="space-y-2">
         <div className="border-border bg-background focus-within:border-primary/60 focus-within:ring-primary/10 flex items-end gap-2 rounded-xl border p-2 transition-all focus-within:ring-4">
           <textarea
+            ref={ref}
             value={value}
-            onChange={(event) =>
-              setValue(event.target.value.slice(0, MAX_MESSAGE_LENGTH))
-            }
+            onChange={(event) => {
+              setValue(event.target.value.slice(0, MAX_MESSAGE_LENGTH));
+            }}
             onKeyDown={(event) => {
               if (
                 event.key === "Enter" &&
@@ -82,14 +83,16 @@ export function ChatInput({
           )}
         </div>
 
-        <div className="text-muted-foreground flex items-center justify-between px-1 text-[11px]">
-          <span>Press Enter to send · Shift + Enter for a new line</span>
+        <div className="text-muted-foreground flex items-center justify-between gap-3 px-1 text-[11px]">
+          <span className="truncate">
+            Enter to send · Shift + Enter for new line
+          </span>
 
           <span
             className={
               value.length >= MAX_MESSAGE_LENGTH
-                ? "text-destructive"
-                : undefined
+                ? "text-destructive shrink-0"
+                : "shrink-0"
             }
           >
             {value.length}/{MAX_MESSAGE_LENGTH}
@@ -98,4 +101,4 @@ export function ChatInput({
       </form>
     </div>
   );
-}
+});

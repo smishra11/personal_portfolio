@@ -3,22 +3,25 @@
 import { RotateCcw, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  DialogClose,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type ChatHeaderProps = {
   hasMessages: boolean;
   isLoading: boolean;
   onClear: () => void;
-  onClose: () => void;
 };
 
 export function ChatHeader({
   hasMessages,
   isLoading,
   onClear,
-  onClose,
 }: Readonly<ChatHeaderProps>) {
   return (
-    <div className="border-border flex items-center justify-between border-b px-4 py-3">
+    <header className="border-border flex items-center justify-between border-b px-4 py-3">
       <div className="flex min-w-0 items-center gap-3">
         <div
           aria-hidden="true"
@@ -28,19 +31,19 @@ export function ChatHeader({
         </div>
 
         <div className="min-w-0">
-          <h2 className="text-foreground truncate text-sm font-semibold">
+          <DialogTitle className="text-foreground truncate text-sm font-semibold">
             Portfolio Assistant
-          </h2>
+          </DialogTitle>
 
           <div className="mt-0.5 flex items-center gap-1.5">
             <span
               aria-hidden="true"
-              className="size-1.5 rounded-full bg-emerald-500"
+              className="size-1.5 shrink-0 rounded-full bg-emerald-500"
             />
 
-            <p className="text-muted-foreground truncate text-xs">
+            <DialogDescription className="text-muted-foreground truncate text-xs">
               Ask about Subhasish&apos;s work and experience
-            </p>
+            </DialogDescription>
           </div>
         </div>
       </div>
@@ -60,17 +63,20 @@ export function ChatHeader({
           </Button>
         )}
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          onClick={onClose}
-          aria-label="Close chatbot"
-          className="text-muted-foreground hover:text-foreground size-8 rounded-lg"
+        <DialogClose
+          render={
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label="Close portfolio assistant"
+              className="text-muted-foreground hover:text-foreground size-8 rounded-lg"
+            />
+          }
         >
           <X className="size-4" />
-        </Button>
+        </DialogClose>
       </div>
-    </div>
+    </header>
   );
 }

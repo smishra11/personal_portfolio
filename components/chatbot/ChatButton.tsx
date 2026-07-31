@@ -1,5 +1,6 @@
 "use client";
 
+import { forwardRef } from "react";
 import { Bot, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -10,9 +11,13 @@ type ChatButtonProps = {
   onClick: () => void;
 };
 
-export function ChatButton({ isOpen, onClick }: Readonly<ChatButtonProps>) {
+export const ChatButton = forwardRef<
+  HTMLButtonElement,
+  Readonly<ChatButtonProps>
+>(function ChatButton({ isOpen, onClick }, ref) {
   return (
     <Button
+      ref={ref}
       type="button"
       size="icon"
       onClick={onClick}
@@ -30,4 +35,4 @@ export function ChatButton({ isOpen, onClick }: Readonly<ChatButtonProps>) {
       {isOpen ? <X className="size-5" /> : <Bot className="size-5" />}
     </Button>
   );
-}
+});

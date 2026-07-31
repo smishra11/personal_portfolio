@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { type RefObject, useEffect, useRef } from "react";
 import { AlertCircle } from "lucide-react";
 
 import { ChatHeader } from "@/components/chatbot/ChatHeader";
@@ -14,22 +14,23 @@ type ChatWindowProps = {
   messages: readonly ChatMessageType[];
   isLoading: boolean;
   error: string | null;
+  inputRef: RefObject<HTMLTextAreaElement | null>;
   onSend: (message: string) => void;
   onStop: () => void;
   onClear: () => void;
-  onClose: () => void;
 };
 
 export function ChatWindow({
   messages,
   isLoading,
   error,
+  inputRef,
   onSend,
   onStop,
   onClear,
-  onClose,
 }: Readonly<ChatWindowProps>) {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+
   const hasMessages = messages.length > 0;
 
   useEffect(() => {
@@ -44,17 +45,11 @@ export function ChatWindow({
   }, [messages, isLoading, error]);
 
   return (
-    <section
-      role="dialog"
-      aria-modal="true"
-      aria-label="Portfolio chatbot"
-      className="border-border bg-background fixed inset-x-0 bottom-0 z-50 flex h-[85dvh] w-full flex-col overflow-hidden rounded-t-2xl border border-b-0 shadow-2xl sm:static sm:h-[min(680px,calc(100dvh-7rem))] sm:w-97.5 sm:rounded-2xl sm:border"
-    >
+    <section className="bg-background flex h-full min-h-0 w-full flex-col overflow-hidden">
       <ChatHeader
         hasMessages={hasMessages}
         isLoading={isLoading}
         onClear={onClear}
-        onClose={onClose}
       />
 
       <div
@@ -83,11 +78,7 @@ export function ChatWindow({
             <SuggestedQuestions isLoading={isLoading} onSelect={onSend} />
           </div>
         ) : (
-          <div
-            aria-live="polite"
-            aria-relevant="additions"
-            className="space-y-4 p-4"
-          >
+          <div className="space-y-4 p-4">
             {messages.map((message, index) => {
               const isLastMessage = index === messages.length - 1;
 
@@ -117,7 +108,16 @@ export function ChatWindow({
         )}
       </div>
 
-      <ChatInput isLoading={isLoading} onSend={onSend} onStop={onStop} />
+      <p className="sr-only" aria-live="polite">
+        {isLoading ? "The portfolio assistant is generating a response." : ""}
+      </p>
+
+      <ChatInput
+        ref={inputRef}
+        isLoading={isLoading}
+        onSend={onSend}
+        onStop={onStop}
+      />
     </section>
   );
 }
