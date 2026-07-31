@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout";
 import { Toaster } from "@/components/ui/sonner";
+import { Chatbot } from "@/components/chatbot/Chatbot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -141,6 +142,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
+          <Chatbot />
           <Toaster position="bottom-center" richColors />
         </ThemeProvider>
       </body>
