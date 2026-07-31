@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { getChatErrorCategory, trackChatEvent } from "@/lib/chatAnalytics";
 
 export type ChatMessage = {
   id: string;
@@ -237,6 +238,10 @@ export function useChat() {
 
       isSendingRef.current = true;
       timedOutRef.current = false;
+      trackChatEvent({
+        event: "chat_question_sent",
+        pathname,
+      });
 
       setError(null);
       setIsLoading(true);
@@ -252,6 +257,7 @@ export function useChat() {
 
       setMessages(messagesRef.current);
 
+      const responseStartedAt = performance.now();
       const controller = new AbortController();
       abortControllerRef.current = controller;
 
@@ -304,6 +310,12 @@ export function useChat() {
         if (!response.body) {
           throw new Error("The assistant returned an empty response.");
         }
+
+        trackChatEvent({
+          event: "chat_response_completed",
+          pathname,
+          durationMs: performance.now() - responseStartedAt,
+        });
 
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
@@ -388,9 +400,16 @@ export function useChat() {
       } catch (requestError) {
         if (isAbortError(requestError)) {
           if (timedOutRef.current) {
-            setError(
-              "The assistant took too long to begin responding. Please try again."
-            );
+            const timeoutMessage =
+              "The assistant took too long to begin responding. Please try again.";
+
+            setError(timeoutMessage);
+
+            trackChatEvent({
+              event: "chat_error",
+              pathname,
+              category: "timeout",
+            });
           }
 
           return;
@@ -402,6 +421,12 @@ export function useChat() {
             : "Something went wrong. Please try again.";
 
         setError(errorMessage);
+
+        trackChatEvent({
+          event: "chat_error",
+          pathname,
+          category: getChatErrorCategory(requestError),
+        });
 
         setMessages((currentMessages) =>
           currentMessages.filter(
@@ -429,6 +454,14 @@ export function useChat() {
   );
 
   const stopGeneration = useCallback(() => {
+    const hadActiveGeneration = abortControllerRef.current !== null;
+
+    if (hadActiveGeneration) {
+      trackChatEvent({
+        event: "chat_response_stopped",
+        pathname,
+      });
+    }
     generationIdRef.current += 1;
     timedOutRef.current = false;
     isSendingRef.current = false;
@@ -444,9 +477,17 @@ export function useChat() {
           message.role !== "assistant" || message.content.trim().length > 0
       )
     );
-  }, []);
+  }, [pathname]);
 
   const clearMessages = useCallback(() => {
+    const hadMessages = messagesRef.current.length > 0;
+
+    if (hadMessages) {
+      trackChatEvent({
+        event: "chat_cleared",
+        pathname,
+      });
+    }
     generationIdRef.current += 1;
     timedOutRef.current = false;
     isSendingRef.current = false;
@@ -465,7 +506,7 @@ export function useChat() {
     } catch {
       // Browser storage may be unavailable.
     }
-  }, []);
+  }, [pathname]);
 
   return {
     messages,
