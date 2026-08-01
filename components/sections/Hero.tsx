@@ -45,7 +45,7 @@ export function Hero() {
     <Section
       id="hero"
       aria-labelledby="hero-title"
-      className="flex items-center pt-14 pb-16 md:pt-20 md:pb-20 lg:pt-24 lg:pb-24 [@media(min-width:1024px)_and_(min-height:760px)]:min-h-[calc(100svh-4rem)]"
+      className="flex items-center pt-14 md:pt-20 lg:pt-24 [@media(min-width:1024px)_and_(min-height:760px)]:min-h-[calc(100svh-4rem)]"
     >
       <Container>
         <div className="max-w-4xl">
