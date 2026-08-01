@@ -45,7 +45,7 @@ export function Hero() {
     <Section
       id="hero"
       aria-labelledby="hero-title"
-      className="flex min-h-[85vh] items-center pt-12 pb-10"
+      className="flex items-center pt-14 pb-16 md:pt-20 md:pb-20 lg:pt-24 lg:pb-24 [@media(min-width:1024px)_and_(min-height:760px)]:min-h-[calc(100svh-4rem)]"
     >
       <Container>
         <div className="max-w-4xl">
@@ -82,19 +82,30 @@ export function Hero() {
             {...animation(buttonAnimation)}
             className="mt-10 flex flex-wrap gap-4"
           >
-            <Link href="#work">
-              <Button size="lg">
-                Explore My Work
-                <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover/button:translate-x-1" />
-              </Button>
-            </Link>
+            <Button
+              nativeButton={false}
+              size="lg"
+              render={<Link href="#work" />}
+            >
+              Explore My Work
+              <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover/button:translate-x-1" />
+            </Button>
 
-            <Link href={RESUME_PATH} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="lg">
-                <Download className="mr-2 size-4 transition-transform duration-300 group-hover/button:-translate-y-0.5" />
-                Download Resume
-              </Button>
-            </Link>
+            <Button
+              nativeButton={false}
+              variant="outline"
+              size="lg"
+              render={
+                <Link
+                  href={RESUME_PATH}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              }
+            >
+              <Download className="mr-2 size-4 transition-transform duration-300 group-hover/button:-translate-y-0.5" />
+              Download Resume
+            </Button>
           </motion.div>
 
           <motion.div

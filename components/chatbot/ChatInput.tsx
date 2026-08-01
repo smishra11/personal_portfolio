@@ -54,9 +54,9 @@ export const ChatInput = forwardRef<
             }}
             placeholder="Ask about experience, projects, or skills..."
             aria-label="Chat message"
-            rows={1}
+            rows={3}
             disabled={isLoading}
-            className="text-foreground placeholder:text-muted-foreground max-h-28 min-h-10 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-5 outline-none disabled:cursor-not-allowed disabled:opacity-60"
+            className="text-foreground placeholder:text-muted-foreground max-h-40 min-h-22 flex-1 resize-none bg-transparent px-2 py-2 text-base leading-6 outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:max-h-28 sm:min-h-10 sm:text-sm sm:leading-5"
           />
 
           {isLoading ? (

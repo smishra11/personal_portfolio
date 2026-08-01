@@ -17,7 +17,6 @@ const INITIAL_QUESTIONS = [
   "Tell me about Subhasish",
   "What are his frontend skills?",
   "Which projects has he worked on?",
-  "Tell me about his experience at Recro",
 ] as const;
 
 const DEFAULT_FOLLOW_UP_QUESTIONS = [
