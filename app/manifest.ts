@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Subhasish Mishra | Frontend Engineer",
     short_name: "Subhasish",
     description:
-      "Frontend Engineer specializing in React, Next.js, TypeScript, and modern web applications. Explore production projects, frontend architecture, JavaScript deep dives, and interactive engineering playgrounds.",
+      "Frontend Engineer specializing in React, Next.js, TypeScript, and modern web applications.",
     start_url: "/",
     scope: "/",
     display: "standalone",
@@ -24,17 +24,18 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/icon-192.png",
         sizes: "192x192",
         type: "image/png",
+        purpose: "any",
       },
       {
         src: "/icon-512.png",
         sizes: "512x512",
         type: "image/png",
+        purpose: "maskable", // Helps Android PWA icons render without cutoffs
       },
       {
         src: "/apple-icon.png",
         sizes: "180x180",
         type: "image/png",
-        purpose: "any",
       },
     ],
   };

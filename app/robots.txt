@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://subhasish-mishra.vercel.app/";
+  const baseUrl = "https://subhasish-mishra.vercel.app";
 
   return {
     rules: {
@@ -9,6 +9,5 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
     },
     sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
   };
 }

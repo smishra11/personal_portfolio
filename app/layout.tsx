@@ -20,8 +20,10 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+const baseUrl = "https://subhasish-mishra.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://subhasish-mishra.vercel.app/"),
+  metadataBase: new URL(baseUrl),
   title: {
     default: "Subhasish Mishra | Frontend Engineer",
     template: "%s | Subhasish Mishra",
@@ -29,11 +31,7 @@ export const metadata: Metadata = {
   description:
     "Frontend Engineer specializing in React, Next.js, TypeScript, and modern web applications. Explore production projects, frontend architecture, JavaScript deep dives, and interactive engineering playgrounds.",
   applicationName: "Subhasish Portfolio",
-  authors: [
-    {
-      name: "Subhasish Mishra",
-    },
-  ],
+  authors: [{ name: "Subhasish Mishra" }],
   creator: "Subhasish Mishra",
   publisher: "Subhasish Mishra",
   keywords: [
@@ -50,11 +48,6 @@ export const metadata: Metadata = {
     "Software Engineer",
     "UI Engineer",
     "Portfolio",
-    "React Portfolio",
-    "Next.js Portfolio",
-    "JavaScript Playground",
-    "Frontend Interview",
-    "Frontend Projects",
     "Bengaluru",
     "India",
   ],
@@ -62,7 +55,7 @@ export const metadata: Metadata = {
   classification: "Portfolio",
   referrer: "origin-when-cross-origin",
   alternates: {
-    canonical: "/",
+    canonical: "./",
   },
   robots: {
     index: true,
@@ -82,11 +75,10 @@ export const metadata: Metadata = {
     email: false,
     address: false,
   },
-  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://subhasish-mishra.vercel.app/",
+    url: baseUrl,
     title: "Subhasish Mishra | Frontend Engineer",
     description:
       "Frontend Engineer specializing in React, Next.js, TypeScript, and modern web applications. Explore production projects, frontend architecture, JavaScript deep dives, and interactive engineering playgrounds.",
@@ -96,7 +88,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Subhasish Mishra Portfolio",
+        alt: "Subhasish Mishra - Frontend Engineer Portfolio",
       },
     ],
   },
@@ -128,8 +120,38 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Subhasish Mishra",
+    url: baseUrl,
+    jobTitle: "Senior Frontend Engineer",
+    worksFor: {
+      "@type": "Organization",
+      name: "Recro",
+    },
+    sameAs: [
+      "https://github.com/smishra11",
+      "https://linkedin.com/in/subhasish-mishra17",
+    ],
+    knowsAbout: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "JavaScript",
+      "Frontend Architecture",
+      "Web Performance",
+    ],
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
