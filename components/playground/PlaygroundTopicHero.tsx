@@ -1,6 +1,7 @@
 import { Clock3 } from "lucide-react";
 
 import type { PlaygroundTopic } from "@/types/playground";
+import { Badge } from "@/components/ui/badge";
 
 const LEVEL_STYLES = {
   Beginner: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
@@ -16,11 +17,11 @@ export function PlaygroundTopicHero({ topic }: PlaygroundTopicHeroProps) {
   return (
     <header className="space-y-8">
       <div className="flex flex-wrap items-center gap-3">
-        <span
+        <Badge
           className={`rounded-full px-3 py-1 text-xs font-semibold ${LEVEL_STYLES[topic.level]}`}
         >
           {topic.level}
-        </span>
+        </Badge>
 
         <div className="text-muted-foreground flex items-center gap-2 text-sm">
           <Clock3 className="size-4" />
@@ -40,12 +41,13 @@ export function PlaygroundTopicHero({ topic }: PlaygroundTopicHeroProps) {
 
       <div className="flex flex-wrap gap-2">
         {topic.tags.map((tag) => (
-          <span
+          <Badge
             key={tag}
-            className="bg-muted text-muted-foreground rounded-full px-3 py-1 text-sm"
+            variant="secondary"
+            className="rounded-full px-2.5 py-0.5 text-[11px] font-medium"
           >
             {tag}
-          </span>
+          </Badge>
         ))}
       </div>
     </header>

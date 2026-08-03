@@ -11,8 +11,8 @@ import { performanceTopics } from "@/data/performance";
 import { reactTopics } from "@/data/react";
 
 const STATUS_STYLES = {
-  Live: "bg-green-500/10 text-green-500",
-  "In Progress": "bg-amber-500/10 text-amber-500",
+  Live: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+  "In Progress": "bg-amber-500/10 text-amber-600 dark:text-amber-400",
   "Coming Soon": "bg-muted text-muted-foreground",
 } as const;
 

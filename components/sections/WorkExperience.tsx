@@ -3,6 +3,7 @@ import { BriefcaseBusiness, CalendarDays, MapPin } from "lucide-react";
 import { SectionHeading } from "@/components/common";
 import { Container, Section } from "@/components/layout";
 import { workExperience } from "@/data/workExperience";
+import { Badge } from "../ui/badge";
 
 export function WorkExperience() {
   return (
@@ -16,16 +17,10 @@ export function WorkExperience() {
 
         <div className="mt-12 space-y-6">
           {workExperience.map((item, index) => {
-            const isCurrent = index === 0;
-
             return (
               <article
                 key={`${item.company}-${item.role}`}
-                className={`rounded-2xl border p-6 transition-colors ${
-                  isCurrent
-                    ? `border-primary/20 bg-card shadow-[0_1px_3px_rgba(0,0,0,0.06),0_18px_45px_rgba(59,130,246,0.12)] dark:shadow-[0_1px_3px_rgba(255,255,255,0.02),0_18px_45px_rgba(59,130,246,0.18)]`
-                    : `border-border bg-card shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(15,23,42,0.06)] dark:shadow-[0_1px_2px_rgba(255,255,255,0.02),0_8px_24px_rgba(0,0,0,0.35)]`
-                }`}
+                className={`border-border bg-card rounded-2xl border p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(15,23,42,0.06)] transition-colors dark:shadow-[0_1px_2px_rgba(255,255,255,0.02),0_8px_24px_rgba(0,0,0,0.35)]`}
               >
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
                   {/* Left */}
@@ -70,12 +65,13 @@ export function WorkExperience() {
 
                 <div className="mt-6 flex flex-wrap gap-2">
                   {item.technologies.map((tech) => (
-                    <span
+                    <Badge
                       key={tech}
-                      className="bg-muted text-muted-foreground rounded-full px-2.5 py-1 text-xs font-medium"
+                      variant="secondary"
+                      className="text-muted-foreground px-2.5 py-1 text-xs font-medium"
                     >
                       {tech}
-                    </span>
+                    </Badge>
                   ))}
                 </div>
               </article>

@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/common";
 import { Container, Section } from "@/components/layout";
 import { work } from "@/data/work";
 import Image from "next/image";
+import { Badge } from "../ui/badge";
 
 export function SelectedWork() {
   const featuredWork = work.filter((item) => item.featured);
@@ -155,12 +156,13 @@ function TechGroup({ title, items }: TechGroupProps) {
 
       <div className="flex flex-wrap gap-2">
         {items.map((item) => (
-          <span
+          <Badge
             key={item}
-            className="bg-muted text-muted-foreground rounded-full px-2.5 py-1 text-xs font-medium"
+            variant="secondary"
+            className="text-muted-foreground px-2.5 py-1 text-xs font-medium"
           >
             {item}
-          </span>
+          </Badge>
         ))}
       </div>
     </div>
