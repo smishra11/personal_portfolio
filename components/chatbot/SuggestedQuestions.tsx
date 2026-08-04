@@ -15,13 +15,13 @@ type SuggestedQuestionsProps = {
 
 const INITIAL_QUESTIONS = [
   "Tell me about Subhasish",
-  "What are his frontend skills?",
-  "Which projects has he worked on?",
+  "What are his strongest frontend skills?",
+  "What personal projects has he built?",
 ] as const;
 
 const DEFAULT_FOLLOW_UP_QUESTIONS = [
-  "What are his strongest frontend skills?",
-  "Which project best shows his experience?",
+  "Tell me about his professional experience",
+  "What personal projects has he built?",
   "How can I contact Subhasish?",
 ] as const;
 
@@ -29,6 +29,49 @@ export function getFollowUpQuestions(
   latestUserMessage: string
 ): readonly string[] {
   const question = latestUserMessage.toLowerCase();
+
+  /*
+   * Personal-project checks must remain above the generic
+   * project, work, skill, React, Next.js, and technology checks.
+   */
+
+  if (
+    question.includes("resume analyzer") ||
+    question.includes("resume analysis") ||
+    question.includes("puter")
+  ) {
+    return [
+      "How does the AI Resume Analyzer work?",
+      "Which technologies power the Resume Analyzer?",
+      "Can I view the Resume Analyzer live?",
+    ];
+  }
+
+  if (
+    question.includes("mock interview") ||
+    question.includes("vapi") ||
+    question.includes("voice interview")
+  ) {
+    return [
+      "How does the AI Mock Interview work?",
+      "What role does Vapi AI play in the project?",
+      "Can I view the AI Mock Interview live?",
+    ];
+  }
+
+  if (
+    question.includes("personal project") ||
+    question.includes("personal projects") ||
+    question.includes("independent project") ||
+    question.includes("independent projects") ||
+    question.includes("built independently")
+  ) {
+    return [
+      "Tell me about the AI Resume Analyzer",
+      "Tell me about the AI Mock Interview",
+      "Which technologies were used in his personal projects?",
+    ];
+  }
 
   if (
     question.includes("recro") ||
@@ -53,7 +96,7 @@ export function getFollowUpQuestions(
   }
 
   if (
-    question.includes("ton") ||
+    question.includes("ton capital") ||
     question.includes("blockchain") ||
     question.includes("web3") ||
     question.includes("metamask")
@@ -78,9 +121,9 @@ export function getFollowUpQuestions(
   }
 
   if (
-    question.includes("project") ||
-    question.includes("work") ||
-    question.includes("client")
+    question.includes("client project") ||
+    question.includes("professional project") ||
+    question.includes("selected work")
   ) {
     return [
       "Tell me about the Jumio project",
@@ -90,15 +133,29 @@ export function getFollowUpQuestions(
   }
 
   if (
+    question.includes("project") ||
+    question.includes("projects") ||
+    question.includes("work")
+  ) {
+    return [
+      "What professional projects has he worked on?",
+      "What personal projects has he built?",
+      "How are his personal projects different from client work?",
+    ];
+  }
+
+  if (
     question.includes("skill") ||
     question.includes("technology") ||
+    question.includes("technologies") ||
     question.includes("tech stack") ||
     question.includes("react") ||
-    question.includes("next")
+    question.includes("next.js") ||
+    question.includes("typescript")
   ) {
     return [
       "How has he used React and Next.js?",
-      "What is his performance experience?",
+      "What is his frontend performance experience?",
       "Which state management tools has he used?",
     ];
   }
@@ -111,7 +168,7 @@ export function getFollowUpQuestions(
     return [
       "Tell me about his experience at Recro",
       "Tell me about his work at TrustCheckr",
-      "Which projects has he contributed to?",
+      "Which professional projects has he contributed to?",
     ];
   }
 
@@ -124,7 +181,7 @@ export function getFollowUpQuestions(
   ) {
     return [
       "What are his strongest frontend skills?",
-      "Which projects has he worked on?",
+      "What personal projects has he built?",
       "Why should someone hire Subhasish?",
     ];
   }
@@ -135,8 +192,8 @@ export function getFollowUpQuestions(
     question.includes("tell me about")
   ) {
     return [
-      "What are his frontend skills?",
-      "Which projects has he worked on?",
+      "What are his strongest frontend skills?",
+      "What personal projects has he built?",
       "Tell me about his professional experience",
     ];
   }
