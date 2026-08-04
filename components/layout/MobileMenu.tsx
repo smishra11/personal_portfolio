@@ -3,9 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import { ArrowRight, Download, Menu } from "lucide-react";
+import {
+  ArrowRight,
+  BriefcaseBusiness,
+  Download,
+  FlaskConical,
+  FolderKanban,
+  Mail,
+  Menu,
+  PanelsTopLeft,
+  UserRound,
+  type LucideIcon,
+} from "lucide-react";
 
-import { ThemeToggle, SocialIcon } from "@/components/common";
+import { SocialIcon, ThemeToggle } from "@/components/common";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -14,7 +26,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 
 import { contact } from "@/data/contact";
 import { cn } from "@/lib/utils";
@@ -29,7 +40,19 @@ type MobileMenuProps = {
   resumePath: string;
 };
 
-export function MobileMenu({ navLinks, resumePath }: MobileMenuProps) {
+const NAV_ICONS: Record<string, LucideIcon> = {
+  About: UserRound,
+  Experience: BriefcaseBusiness,
+  Work: FolderKanban,
+  Projects: PanelsTopLeft,
+  Playground: FlaskConical,
+  Contact: Mail,
+};
+
+export function MobileMenu({
+  navLinks,
+  resumePath,
+}: Readonly<MobileMenuProps>) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -39,10 +62,16 @@ export function MobileMenu({ navLinks, resumePath }: MobileMenuProps) {
 
   const links = useMemo(
     () =>
-      navLinks.map((link) => ({
-        ...link,
-        mobileHref: pathname === "/" ? link.href : `/${link.href}`,
-      })),
+      navLinks.map((link) => {
+        const sectionHash = link.href.startsWith("/#")
+          ? link.href.slice(1)
+          : link.href;
+
+        return {
+          ...link,
+          mobileHref: pathname === "/" ? sectionHash : link.href,
+        };
+      }),
     [pathname, navLinks]
   );
 
@@ -66,10 +95,10 @@ export function MobileMenu({ navLinks, resumePath }: MobileMenuProps) {
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
-          aria-label="Open navigation menu"
-          className="hover:bg-muted inline-flex h-10 w-10 items-center justify-center rounded-xl transition-colors"
+          aria-label="Open portfolio menu"
+          className="hover:bg-muted inline-flex size-10 items-center justify-center rounded-xl transition-colors"
         >
-          <Menu className="size-5" />
+          <Menu aria-hidden="true" className="size-5" />
         </SheetTrigger>
 
         <SheetContent
@@ -78,53 +107,78 @@ export function MobileMenu({ navLinks, resumePath }: MobileMenuProps) {
         >
           {/* Header */}
 
-          <div className="border-border border-b px-6 py-6">
-            <SheetHeader className="space-y-1 text-left">
-              <SheetTitle className="text-xl font-bold tracking-tight">
-                Navigation
+          <div className="border-border border-b px-5 py-4">
+            <SheetHeader className="space-y-0.5 text-left">
+              <SheetTitle className="text-lg font-bold tracking-tight">
+                Explore
               </SheetTitle>
 
-              <SheetDescription>Explore my portfolio.</SheetDescription>
+              <SheetDescription className="text-xs leading-5">
+                Discover my experience, work, projects, and experiments.
+              </SheetDescription>
             </SheetHeader>
           </div>
 
           {/* Navigation */}
 
-          <nav className="flex-1 px-4 py-6">
-            <div className="space-y-2">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.mobileHref}
-                  onClick={closeMenu}
-                  className={cn(
-                    "group hover:bg-muted flex items-center justify-between rounded-xl px-4 py-4 text-base font-medium transition-all duration-200"
-                  )}
-                >
-                  <span>{link.label}</span>
+          <nav
+            aria-label="Mobile navigation"
+            className="flex-1 overflow-y-auto px-3 py-3"
+          >
+            <div className="space-y-1">
+              {links.map((link) => {
+                const Icon = NAV_ICONS[link.label];
 
-                  <ArrowRight className="text-muted-foreground size-4 transition-transform duration-200 group-hover:translate-x-1" />
-                </Link>
-              ))}
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.mobileHref}
+                    onClick={closeMenu}
+                    className={cn(
+                      "group hover:bg-muted flex min-h-11 items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors duration-200"
+                    )}
+                  >
+                    <span className="flex items-center gap-3">
+                      {Icon && (
+                        <Icon
+                          aria-hidden="true"
+                          className="text-muted-foreground size-4 shrink-0"
+                        />
+                      )}
+
+                      <span>{link.label}</span>
+                    </span>
+
+                    <ArrowRight
+                      aria-hidden="true"
+                      className="text-muted-foreground size-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                    />
+                  </Link>
+                );
+              })}
             </div>
           </nav>
 
           {/* Footer */}
 
-          <div className="border-border space-y-6 border-t px-6 py-6">
-            <a
-              href={resumePath}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={closeMenu}
+          <div className="border-border border-t px-5 py-4">
+            <Button
+              nativeButton={false}
+              className="w-full"
+              render={
+                <a
+                  href={resumePath}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={closeMenu}
+                />
+              }
             >
-              <Button className="w-full">
-                <Download className="mr-2 size-4" />
-                Download Resume
-              </Button>
-            </a>
+              <Download aria-hidden="true" className="size-4" />
+              Download Resume
+            </Button>
 
-            <div className="mt-4 flex items-center justify-center gap-4">
+            <div className="mt-4 flex items-center justify-center gap-3">
               {socialIcons}
             </div>
           </div>
