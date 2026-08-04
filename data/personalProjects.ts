@@ -28,7 +28,16 @@ export const personalProjects: readonly PersonalProject[] = [
       "AI Resume Analyzer interface displaying résumé strengths, weaknesses, and improvement suggestions",
     liveUrl: "https://ai-resume-analyzer-ats.vercel.app",
     repositoryUrl: "https://github.com/smishra11/ai-resume-analyzer",
-    technologies: ["React", "Zustand", "Puter.js", "Gemini AI", "Tailwind CSS"],
+    technologies: [
+      "React",
+      "React Router",
+      "Zustand",
+      "Puter.js",
+      "Tailwind CSS",
+      "Gemini AI",
+      "pdf.js",
+      "Vite",
+    ],
     highlights: [
       "AI-generated strengths and improvement areas.",
       "Structured, easy-to-scan resume feedback.",

@@ -51,9 +51,34 @@ export function Hero() {
         <div className="max-w-4xl">
           <motion.p
             {...animation(greetingAnimation)}
-            className="text-primary text-base font-medium"
+            className="text-primary flex items-center gap-2 text-base font-medium"
           >
-            {profile.greeting}
+            <motion.span
+              aria-hidden="true"
+              className="inline-block origin-[70%_70%]"
+              animate={
+                reduceMotion
+                  ? undefined
+                  : {
+                      rotate: [0, 14, -8, 14, -4, 10, 0],
+                    }
+              }
+              transition={
+                reduceMotion
+                  ? undefined
+                  : {
+                      duration: 1.8,
+                      delay: 0.6,
+                      repeat: Infinity,
+                      repeatDelay: 2.5,
+                      ease: "easeInOut",
+                    }
+              }
+            >
+              {profile.greetingEmoji}
+            </motion.span>
+
+            <span>{profile.greeting}</span>
           </motion.p>
 
           <motion.h1
@@ -96,7 +121,7 @@ export function Hero() {
               variant="outline"
               size="lg"
               render={
-                <Link
+                <a
                   href={RESUME_PATH}
                   target="_blank"
                   rel="noopener noreferrer"

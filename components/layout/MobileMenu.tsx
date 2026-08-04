@@ -112,7 +112,7 @@ export function MobileMenu({ navLinks, resumePath }: MobileMenuProps) {
           {/* Footer */}
 
           <div className="border-border space-y-6 border-t px-6 py-6">
-            <Link
+            <a
               href={resumePath}
               target="_blank"
               rel="noopener noreferrer"
@@ -122,7 +122,7 @@ export function MobileMenu({ navLinks, resumePath }: MobileMenuProps) {
                 <Download className="mr-2 size-4" />
                 Download Resume
               </Button>
-            </Link>
+            </a>
 
             <div className="mt-4 flex items-center justify-center gap-4">
               {socialIcons}

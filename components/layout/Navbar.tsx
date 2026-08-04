@@ -84,9 +84,9 @@ export function Navbar() {
           <div className="hidden items-center gap-3 md:flex">
             <ThemeToggle />
 
-            <Link href={RESUME_PATH} target="_blank" rel="noopener noreferrer">
+            <a href={RESUME_PATH} target="_blank" rel="noopener noreferrer">
               <Button>Resume</Button>
-            </Link>
+            </a>
           </div>
 
           <MobileMenu navLinks={navLinks} resumePath={RESUME_PATH} />

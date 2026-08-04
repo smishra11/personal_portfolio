@@ -1,6 +1,7 @@
 export const profile = {
   name: "Subhasish Mishra",
-  greeting: "👋 Hi, I'm",
+  greetingEmoji: "👋",
+  greeting: "Hi, I'm",
   title: "Building high-performance React & Next.js applications.",
   description:
     "Frontend Engineer with 4+ years of experience building scalable web applications, workflow automation tools, and modern user interfaces with a strong focus on performance, accessibility, and exceptional user experience.",
@@ -9,9 +10,10 @@ export const profile = {
   techStack: [
     "HTML 5",
     "CSS 3",
-    "JavaScript",
+    "JavaScript (ES6+)",
     "TypeScript",
     "React",
+    "React Router",
     "Redux",
     "Next.js",
     "Tailwind CSS",
@@ -20,6 +22,8 @@ export const profile = {
     "Bootstrap",
     "Zustand",
     "GraphQL",
+    "Unit testing",
+    "React Testing Library",
     "Git",
     "Gen AI",
   ],

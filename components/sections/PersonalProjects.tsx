@@ -4,13 +4,14 @@ import { ArrowUpRight, ExternalLink } from "lucide-react";
 
 import { SectionHeading } from "@/components/common";
 import { Container, Section } from "@/components/layout";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+import { contact } from "@/data/contact";
 import {
   personalProjects,
   type PersonalProjectStatus,
 } from "@/data/personalProjects";
-import { Badge } from "../ui/badge";
 
 function getStatusStyles(status: PersonalProjectStatus) {
   switch (status) {
@@ -39,6 +40,10 @@ export default function PersonalProjects() {
     (project) => project.featured
   );
 
+  const githubSocial = contact.socials.find(
+    (social) => social.name === "GitHub"
+  );
+
   return (
     <Section id="projects" aria-labelledby="personal-projects-title">
       <Container>
@@ -60,7 +65,7 @@ export default function PersonalProjects() {
                   shouldReverse
                     ? "md:grid-cols-[55fr_45fr]"
                     : "md:grid-cols-[45fr_55fr]"
-                } `}
+                }`}
               >
                 {/* Project image */}
 
@@ -92,7 +97,7 @@ export default function PersonalProjects() {
 
                 <div className={shouldReverse ? "md:order-1" : "md:order-2"}>
                   <span
-                    className={`mb-3 inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${statusStyles.wrapper} `}
+                    className={`mb-3 inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${statusStyles.wrapper}`}
                   >
                     <span
                       aria-hidden="true"
@@ -167,7 +172,29 @@ export default function PersonalProjects() {
                           />
                         }
                       >
-                        <ExternalLink aria-hidden="true" className="size-3.5" />
+                        {githubSocial && (
+                          <>
+                            <Image
+                              src={githubSocial.icon}
+                              alt=""
+                              width={14}
+                              height={14}
+                              aria-hidden="true"
+                              className="size-3.5 dark:hidden"
+                            />
+
+                            {githubSocial.darkIcon && (
+                              <Image
+                                src={githubSocial.darkIcon}
+                                alt=""
+                                width={14}
+                                height={14}
+                                aria-hidden="true"
+                                className="hidden size-3.5 dark:block"
+                              />
+                            )}
+                          </>
+                        )}
                         Source Code
                       </Button>
                     )}
